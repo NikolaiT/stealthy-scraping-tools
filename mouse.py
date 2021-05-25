@@ -47,8 +47,3 @@ def humanMove(x, y):
   # click on the main target
   pyautogui.moveTo(x, y, random.uniform(0.25, .65))
   pyautogui.click()
-
-
-humanMove(800, 200)
-humanMove(800, 400)
-humanMove(1000, 600)

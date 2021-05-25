@@ -37,7 +37,7 @@ async function getCoords(css_selector) {
       width: clientRect.width,
       height: clientRect.height,
     };
-    console.log(css_selector, retVal);
+    console.log(JSON.stringify(retVal));
     return retVal;
   } catch (err) {
     console.error(err);

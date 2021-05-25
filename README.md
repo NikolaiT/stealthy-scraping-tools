@@ -13,3 +13,8 @@ Mouse movements and typing is handled by `pyautogui` or other means, but not wit
 
 ## Full Example
 
+The bot challenge that can be found here [bot.incolumitas.com/#botChallenge](https://bot.incolumitas.com/#botChallenge) will be solved in the following quick tutorial.
+
+The example code can be found in `example.py`.
+
+
