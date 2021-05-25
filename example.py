@@ -9,12 +9,11 @@ from typing import humanTyping
 """
 You might have to adjust some coordinates. 
 
-I used a dual screen setup and I started the browser in
+I used a dual screen setup and I started the browser on the
 left screen.
 
 You can obtain the coordinates of your current mouse pointer with 
-
-xdotool getmouselocation
+the bash command on Linux `xdotool getmouselocation`
 """
 
 
