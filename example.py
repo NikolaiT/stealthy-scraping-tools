@@ -6,6 +6,23 @@ import subprocess
 from mouse import humanMove
 from typing import humanTyping
 
+"""
+You might have to adjust some coordinates. 
+
+I used a dual screen setup and I started the browser in
+left screen.
+
+You can obtain the coordinates of your current mouse pointer with 
+
+xdotool getmouselocation
+"""
+
+
+def getPageSource():
+  cmd = f'/usr/bin/node page_source.js'
+  ps = subprocess.check_output(cmd, shell=True)
+  return ps
+
 
 def getCoords(selector, randomize_within_bcr=True):
   """
@@ -37,9 +54,6 @@ def startBrowser():
 
 
 def main():
-  """
-  Get pixel coords with: `xdotool getmouselocation`
-  """
   startBrowser()
 
   # click link to get to the challenge
@@ -50,7 +64,7 @@ def main():
 
   # enter username
   username = getCoords('input[name="userName"]')
-  humanMove(*username)
+  humanMove(*username, clicks=2)
   time.sleep(random.uniform(0.25, 1.25))
   humanTyping('IamNotABotISwear\n', speed=(0.005, 0.008))
 
@@ -58,7 +72,7 @@ def main():
 
   # enter email
   email = getCoords('input[name="eMail"]')
-  humanMove(*email)
+  humanMove(*email, clicks=3)
   time.sleep(random.uniform(0.25, 1.25))
   humanTyping('bot@spambot.com\n', speed=(0.005, 0.008))
 
@@ -76,9 +90,13 @@ def main():
   submit = getCoords('#submit')
   humanMove(*submit)
 
-  time.sleep(random.uniform(1.5, 2.0))
-
+  # press the final enter
+  time.sleep(random.uniform(2.5, 3.4))
   humanTyping('\n', speed=(0.005, 0.008))
+
+  # finally get the page source
+  text = getPageSource()
+  print('Got {} bytes of page soure'.format(len(text)))
 
 
 if __name__ == '__main__':
