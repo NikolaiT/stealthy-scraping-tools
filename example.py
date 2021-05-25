@@ -8,24 +8,24 @@ from typing import humanTyping
 
 
 def getCoords(selector, randomize_within_bcr=True):
+  """
+  Example: `node coords.js "li:nth-of-type(3) a"`
+  """
   cmd = f'/usr/bin/node coords.js "{selector}"'
   coords = subprocess.check_output(cmd, shell=True)
   parsed = json.loads(coords)
 
-  x = parsed['x'] + random.randrange(0, parsed['width'])
-  y = parsed['y'] + random.randrange(0, parsed['height'])
+  x = parsed['x']
+  y = parsed['y']
 
   if randomize_within_bcr:
-    x += random.randrange(0, parsed['width'])
-    y += random.randrange(0, parsed['height'])
+    x += random.randrange(0, int(parsed['width']))
+    y += random.randrange(0, int(parsed['height']))
 
   return x, y
 
 
-def main():
-  """
-  Get pixel coords with: `xdotool getmouselocation`
-  """
+def startBrowser():
   os.system('google-chrome --remote-debugging-port=9222 --start-maximized --disable-notifications &')
   time.sleep(4)
 
@@ -35,18 +35,34 @@ def main():
   humanTyping('bot.incolumitas.com\n', speed=(0.005, 0.008))
   time.sleep(random.uniform(1.5, 2.5))
 
+
+def main():
+  """
+  Get pixel coords with: `xdotool getmouselocation`
+  """
+  startBrowser()
+
   # click link to get to the challenge
-  coords = getCoords('li:nth-of-type(3)')
-  print(coords)
+  coords = getCoords('li:nth-of-type(3) a')
+  print('Clicking on coordinates ' + str(coords))
   humanMove(*coords)
+  time.sleep(random.uniform(0.5, 1.0))
 
   # enter username
   username = getCoords('input[name="userName"]')
   humanMove(*username)
+  time.sleep(random.uniform(0.25, 1.25))
+  humanTyping('IamNotABotISwear\n', speed=(0.005, 0.008))
+
+  time.sleep(random.uniform(0.5, 1.0))
 
   # enter email
   email = getCoords('input[name="eMail"]')
   humanMove(*email)
+  time.sleep(random.uniform(0.25, 1.25))
+  humanTyping('bot@spambot.com\n', speed=(0.005, 0.008))
+
+  time.sleep(random.uniform(0.5, 1.0))
 
   # agree to the terms
   terms = getCoords('input[name="terms"]')
@@ -59,6 +75,10 @@ def main():
   # submit
   submit = getCoords('#submit')
   humanMove(*submit)
+
+  time.sleep(random.uniform(1.5, 2.0))
+
+  humanTyping('\n', speed=(0.005, 0.008))
 
 
 if __name__ == '__main__':

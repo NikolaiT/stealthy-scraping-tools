@@ -28,7 +28,7 @@ def someWhereRandomClose(x, y, max_dist=120):
 			return (x, y)
 
 
-def humanMove(x, y):
+def humanMove(x, y, doubleClick=False):
   """
   Moves like a human to the coordinate (x, y) and 
   clicks on the coordinate.
@@ -46,4 +46,8 @@ def humanMove(x, y):
 
   # click on the main target
   pyautogui.moveTo(x, y, random.uniform(0.25, .65))
-  pyautogui.click()
+
+  if doubleClick:
+    pyautogui.click(clicks=2)
+  else:
+    pyautogui.click()

@@ -17,6 +17,18 @@ The bot challenge that can be found here [bot.incolumitas.com/#botChallenge](htt
 
 The example code can be found in `example.py`.
 
+Run it with:
+
+```bash
+pipenv shell
+```
+
+And then run:
+
+```python
+python example.py
+```
+
 ## TODO
 
 + Look at Kernel/OS level mouse/keyboard control commands (Ditch `pyautogui`)
