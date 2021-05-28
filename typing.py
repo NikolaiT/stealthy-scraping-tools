@@ -3,7 +3,7 @@ import random
 import time
 
 def tinySleep():
-  time.sleep(random.uniform(0.005, 0.07))
+  time.sleep(random.uniform(0.005, 0.03))
 
 
 def doubleHit(key1, key2):
@@ -26,7 +26,7 @@ def doubleHit(key1, key2):
     pyautogui.keyUp(key1)
 
 
-def humanTyping(text, speed=(0.015, 0.03)):
+def humanTyping(text, speed=(0.015, 0.03), doubleHit=True):
   """
   Mostly the keydown/keyup pairs are in order, but
   sometimes we want two keydown's at the same time.
@@ -39,7 +39,7 @@ def humanTyping(text, speed=(0.015, 0.03)):
   i = 0
   while i <= len(text):
     time.sleep(random.uniform(*speed))
-    if random.random() < .3 and i+1 < len(text):
+    if doubleHit is True and random.random() < .3 and i+1 < len(text):
       doubleHit(text[i], text[i+1])
       i += 2
     else:
