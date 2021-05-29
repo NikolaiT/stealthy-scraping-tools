@@ -38,12 +38,17 @@ def humanMove(x, y, clicks=1):
   Visits one intermediate coordiante close to the target before
   fine correcting and clicking on the target coordinates.
   """
-  close_x, close_y = someWhereRandomClose(x, y, 100)
+  if random.random() < 0.3:
+    far_x, far_y = someWhereRandomClose(x, y, 400)
+    pyautogui.moveTo(far_x, far_y, random.uniform(0.25, .45), pyautogui.easeOutQuad)
+    closer_x, closer_y = someWhereRandomClose(x, y, 150)
+    pyautogui.moveTo(closer_x, closer_y, random.uniform(0.25, .45), pyautogui.easeOutQuad)
 
   # move to an intermediate target close to the destination
   # start fast, end slow
-  pyautogui.moveTo(close_x, close_y, random.uniform(0.19, .75), pyautogui.easeOutQuad)
+  close_x, close_y = someWhereRandomClose(x, y, 50)
+  pyautogui.moveTo(close_x, close_y, random.uniform(0.15, .25), pyautogui.easeOutQuad)
 
   # click on the main target
-  pyautogui.moveTo(x, y, random.uniform(0.25, .65))
+  pyautogui.moveTo(x, y, random.uniform(0.15, .35))
   pyautogui.click(clicks=clicks)

@@ -8,6 +8,13 @@ from mouse import humanMove
 from typing import humanTyping
 from target import target
 
+"""
+Important: 
+
+1. Update the coordinates for the address bar with `xdotool getmouselocation` in method visitPage()
+2. Do not change the zoom level for the page in the browser! This will mess with coordinates! Default must be 100% zoom level.
+"""
+
 # collect keys
 keys = []
 
@@ -27,9 +34,9 @@ def getKey():
 
 
 def visitPage():
-  humanMove(168, 79)
+  humanMove(168, 79) # click on the address bar to enter URL
   humanTyping(target, doubleHit=False)
-  time.sleep(random.randrange(3, 4))
+  time.sleep(random.uniform(2, 3))
 
 
 def main():
@@ -44,13 +51,14 @@ def main():
       visitPage()
       parsed = getCoords(random.randrange(1, 11))
       keys.append(getKey())
+      return
 
       for i in range(11):
-        x = parsed['x'] + random.randrange(0, int(parsed['width'] / 2))
-        y = parsed['y'] + random.randrange(0, int(parsed['height'] / 2))
-        # print(f'x={x}, y={y}')
+        x = parsed['x'] + random.randrange(0, int(parsed['width']))
+        y = parsed['y'] + random.randrange(0, int(parsed['height']))
+        print(f'x={x}, y={y}')
         humanMove(x, y)
-        time.sleep(random.randrange(1, 3))
+        time.sleep(random.uniform(1, 1.74))
         keys.append(getKey())
         parsed = getCoords(random.randrange(1, 11))
         print(f'Got {len(set(keys))} unique keys')
