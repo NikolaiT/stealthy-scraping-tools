@@ -11,8 +11,11 @@ from target import target
 """
 Important: 
 
-1. Update the coordinates for the address bar with `xdotool getmouselocation` in method visitPage()
-2. Do not change the zoom level for the page in the browser! This will mess with coordinates! Default must be 100% zoom level.
+1. Update the coordinates of the browser url address bar. Use the command `xdotool getmouselocation` to detect coordinates on your screen. 
+2. Do not change the zoom level for the page in the browser! This will mess with coordinates! Default level must be 100% zoom level.
+3. I assume that the binary name of Google Chrome is `google-chrome`. Change the code if your binary name is different.
+4. Make sure the browser window is started in your leftmost screen!
+   I have a dual screen setup and sometimes I need to manually move my browser window to the correct screen ;)
 """
 
 # collect keys

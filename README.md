@@ -20,6 +20,10 @@ The bot challenge that can be found here [bot.incolumitas.com/#botChallenge](htt
 
 The example code can be found in `example.py`.
 
+I am using an Ubuntu 18.04 system with `Python3` (with `pipenv`) and a recent `Node` version.
+
+The browser `google-chrome` must be installed.
+
 Clone the repo:
 
 ```
@@ -33,10 +37,16 @@ Activate a pipenv environment with:
 pipenv shell
 ```
 
+Then install `pyautogui`:
+
+```bash
+pip install pyautogui
+```
+
 Install node modules:
 
 ```
-npm install
+npm install chrome-remote-interface
 ```
 
 And then run the bot with:
