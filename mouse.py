@@ -2,30 +2,30 @@ import pyautogui
 import random
 
 def someWhereRandomClose(x, y, max_dist=120):
-	"""
-	Find a random position close to (x, y)
-	with maximal dist @max_dist
-	"""
-	shape = pyautogui.size()
-	cnt = 0
+  """
+  Find a random position close to (x, y)
+  with maximal dist @max_dist
+  """
+  shape = pyautogui.size()
+  cnt = 0
 
-	while True:
-		randX = random.randrange(1, max_dist)
-		randY = random.randrange(1, max_dist)
+  while True:
+    randX = random.randrange(1, max_dist)
+    randY = random.randrange(1, max_dist)
 
-		if random.random() > 0.5:
-			randX *= -1
+    if random.random() > 0.5:
+      randX *= -1
 
-		if random.random() > 0.5:
-			randY *= -1
+    if random.random() > 0.5:
+      randY *= -1
 
-		if x + randX in range(0, shape.width) and y + randY in range(0, shape.height):
-			return (x + randX, y + randY)
+    if x + randX in range(0, shape.width) and y + randY in range(0, shape.height):
+      return (x + randX, y + randY)
 
-		cnt += 1
+    cnt += 1
 
-		if cnt > 15:
-			return (x, y)
+    if cnt > 15:
+      return (x, y)
 
 
 def humanMove(x, y, clicks=1):
