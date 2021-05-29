@@ -38,7 +38,8 @@ def humanTyping(text, speed=(0.007, 0.01), doubleHit=True):
   """
   i = 0
   while i <= len(text):
-    time.sleep(random.uniform(*speed))
+    if speed:
+      time.sleep(random.uniform(*speed))
     if doubleHit is True and random.random() < .3 and i+1 < len(text):
       doubleHit(text[i], text[i+1])
       i += 2

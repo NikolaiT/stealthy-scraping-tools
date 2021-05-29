@@ -35,7 +35,7 @@ def getKey():
 
 def visitPage():
   humanMove(168, 79) # click on the address bar to enter URL
-  humanTyping(target, doubleHit=False)
+  humanTyping(target, speed=None, doubleHit=False)
   time.sleep(random.uniform(2, 3))
 
 
@@ -51,8 +51,7 @@ def main():
       visitPage()
       parsed = getCoords(random.randrange(1, 11))
       keys.append(getKey())
-      return
-
+      
       for i in range(11):
         x = parsed['x'] + random.randrange(0, int(parsed['width']))
         y = parsed['y'] + random.randrange(0, int(parsed['height']))
