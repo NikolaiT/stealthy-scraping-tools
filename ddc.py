@@ -7,6 +7,7 @@ import re
 from mouse import humanMove
 from typing import humanTyping
 from target import target
+import pyautogui
 
 """
 Important: 
@@ -37,9 +38,13 @@ def getKey():
 
 
 def visitPage():
+  # @UPDATE COORDINATES HERE
   humanMove(168, 79) # click on the address bar to enter URL
-  humanTyping(target, speed=None, doubleHit=False)
-  time.sleep(random.uniform(2, 3))
+  pyautogui.typewrite(target)
+  # the following is not necessary, because JavaScript cannot record 
+  # keydown/keyup events in the address bar
+  # humanTyping(target, speed=None, doubleHit=False)
+  time.sleep(random.uniform(1.5, 2.5))
 
 
 def main():
@@ -58,7 +63,7 @@ def main():
       for i in range(11):
         x = parsed['x'] + random.randrange(0, int(parsed['width']))
         y = parsed['y'] + random.randrange(0, int(parsed['height']))
-        print(f'x={x}, y={y}')
+        # print(f'x={x}, y={y}')
         humanMove(x, y)
         time.sleep(random.uniform(1, 1.74))
         keys.append(getKey())
