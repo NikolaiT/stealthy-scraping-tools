@@ -4,6 +4,9 @@ Do not use puppeteer and playwright for scraping. [Explanation.](https://incolum
 
 We only use the [CDP](https://developer.chrome.com/docs/devtools/) to obtain the page source and to get the absolute coordinates for an arbitrary CSS selector. That's all what is needed for efficient scraping.
 
+1. To obtain the page source of the browser's current page. Implemented in [page_source.js](https://github.com/NikolaiT/stealthy-scraping-tools/blob/main/page_source.js)
+2. To get the absolute coordinates for an arbitrary CSS selector. Implemented in [coords.js](https://github.com/NikolaiT/stealthy-scraping-tools/blob/main/coords.js)
+
 Mouse movements and typing is handled by `pyautogui` or other means, but not with JavaScript or with the CDP! Reason: Browser based mouse and keyboard emulation is very easy detectable!
 
 ## Theory 
@@ -28,6 +31,12 @@ Activate a pipenv environment with:
 
 ```bash
 pipenv shell
+```
+
+Install node modules:
+
+```
+npm install
 ```
 
 And then run the bot with:
