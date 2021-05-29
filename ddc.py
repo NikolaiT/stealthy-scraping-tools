@@ -65,7 +65,7 @@ def main():
         y = parsed['y'] + random.randrange(0, int(parsed['height']))
         # print(f'x={x}, y={y}')
         humanMove(x, y)
-        time.sleep(random.uniform(1, 1.74))
+        time.sleep(random.uniform(.75, 1.24))
         keys.append(getKey())
         parsed = getCoords(random.randrange(1, 11))
         print(f'Got {len(set(keys))} unique keys')
