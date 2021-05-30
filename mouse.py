@@ -1,6 +1,10 @@
 import pyautogui
 import random
 
+def tinySleep():
+  time.sleep(random.uniform(0.075, 0.329))
+
+
 def someWhereRandomClose(x, y, max_dist=120):
   """
   Find a random position close to (x, y)
@@ -38,11 +42,18 @@ def humanMove(x, y, clicks=1):
   Visits one intermediate coordiante close to the target before
   fine correcting and clicking on the target coordinates.
   """
-  if random.random() < 0.25:
+  if random.random() < 0.33:
     far_x, far_y = someWhereRandomClose(x, y, 500)
     pyautogui.moveTo(far_x, far_y, random.uniform(0.25, .45), pyautogui.easeOutQuad)
+
+    tinySleep()
+
     closer_x, closer_y = someWhereRandomClose(x, y, 250)
     pyautogui.moveTo(closer_x, closer_y, random.uniform(0.25, .45), pyautogui.easeOutQuad)
+
+    if random.random() < 0.5:
+      tinySleep()
+      pyautogui.click(clicks=1)
 
   # move to an intermediate target close to the destination
   # start fast, end slow
@@ -51,4 +62,5 @@ def humanMove(x, y, clicks=1):
 
   # click on the main target
   pyautogui.moveTo(x, y, random.uniform(.29, .55))
+  tinySleep()
   pyautogui.click(clicks=clicks)
