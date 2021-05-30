@@ -33,8 +33,11 @@ def getCoords(n):
 def getKey():
   cmd = f'/usr/bin/node page_source'
   ps =  subprocess.check_output(cmd, shell=True).decode('utf8').strip()
-  key = re.search(r'[0-9a-z]{32}', ps)
-  return key.group(0)
+  if 'Not found' in ps:
+    return 'done'
+  else:
+    key = re.search(r'[0-9a-z]{32}', ps)
+    return key.group(0)
 
 
 def visitPage():
@@ -67,7 +70,11 @@ def main():
         # print(f'x={x}, y={y}')
         humanMove(x, y)
         time.sleep(random.uniform(1.15, 1.74))
-        keys.append(getKey())
+        key = getKey()
+        if key == 'done':
+          break
+        else:
+          keys.append(key)
         parsed = getCoords(random.randrange(1, 11))
         print(f'Got {len(set(keys))} unique keys')
   except (Exception, KeyboardInterrupt) as e:
