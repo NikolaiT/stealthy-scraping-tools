@@ -50,7 +50,7 @@ def humanMove(x, y, clicks=1):
     closer_x, closer_y = someWhereRandomClose(x, y, 250)
     pyautogui.moveTo(closer_x, closer_y, random.uniform(0.25, .40), pyautogui.easeOutQuad)
 
-    if random.random() < 0.5:
+    if random.random() < 0.5 and closer_x > 50 and closer_y > 150:
       tinySleep()
       pyautogui.click(clicks=1)
 
