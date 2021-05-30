@@ -56,6 +56,7 @@ def main():
 
   try:
     while True:
+      time.sleep(random.uniform(.95, 1.95))
       visitPage()
       parsed = getCoords(random.randrange(1, 11))
       keys.append(getKey())
