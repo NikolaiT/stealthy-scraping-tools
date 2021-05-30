@@ -1,5 +1,6 @@
 import pyautogui
 import random
+import time
 
 def tinySleep():
   time.sleep(random.uniform(0.075, 0.329))
