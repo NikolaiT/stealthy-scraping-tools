@@ -45,9 +45,7 @@ def humanMove(x, y, clicks=1):
   if random.random() < 0.33:
     far_x, far_y = someWhereRandomClose(x, y, 500)
     pyautogui.moveTo(far_x, far_y, random.uniform(0.25, .45), pyautogui.easeOutQuad)
-
     tinySleep()
-
     closer_x, closer_y = someWhereRandomClose(x, y, 250)
     pyautogui.moveTo(closer_x, closer_y, random.uniform(0.25, .45), pyautogui.easeOutQuad)
 
