@@ -44,7 +44,7 @@ def visitPage():
   # the following is not necessary, because JavaScript cannot record 
   # keydown/keyup events in the address bar
   # humanTyping(target, speed=None, doubleHit=False)
-  time.sleep(random.uniform(1.95, 3.95))
+  time.sleep(random.uniform(1.95, 2.95))
 
 
 def main():
@@ -56,7 +56,7 @@ def main():
 
   try:
     while True:
-      time.sleep(random.uniform(.95, 1.95))
+      time.sleep(random.uniform(.95, 1.25))
       visitPage()
       parsed = getCoords(random.randrange(1, 11))
       keys.append(getKey())
@@ -66,7 +66,7 @@ def main():
         y = parsed['y'] + random.randrange(0, int(parsed['height']))
         # print(f'x={x}, y={y}')
         humanMove(x, y)
-        time.sleep(random.uniform(1.35, 1.74))
+        time.sleep(random.uniform(1.15, 1.74))
         keys.append(getKey())
         parsed = getCoords(random.randrange(1, 11))
         print(f'Got {len(set(keys))} unique keys')

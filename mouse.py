@@ -43,12 +43,12 @@ def humanMove(x, y, clicks=1):
   Visits one intermediate coordiante close to the target before
   fine correcting and clicking on the target coordinates.
   """
-  if random.random() < 0.33:
-    far_x, far_y = someWhereRandomClose(x, y, 500)
-    pyautogui.moveTo(far_x, far_y, random.uniform(0.25, .45), pyautogui.easeOutQuad)
+  if random.random() < 0.13:
+    far_x, far_y = someWhereRandomClose(x, y, 400)
+    pyautogui.moveTo(far_x, far_y, random.uniform(0.35, .55), pyautogui.easeOutQuad)
     tinySleep()
     closer_x, closer_y = someWhereRandomClose(x, y, 250)
-    pyautogui.moveTo(closer_x, closer_y, random.uniform(0.25, .45), pyautogui.easeOutQuad)
+    pyautogui.moveTo(closer_x, closer_y, random.uniform(0.25, .40), pyautogui.easeOutQuad)
 
     if random.random() < 0.5:
       tinySleep()
@@ -57,9 +57,9 @@ def humanMove(x, y, clicks=1):
   # move to an intermediate target close to the destination
   # start fast, end slow
   close_x, close_y = someWhereRandomClose(x, y, 50)
-  pyautogui.moveTo(close_x, close_y, random.uniform(.25, .55), pyautogui.easeOutQuad)
+  pyautogui.moveTo(close_x, close_y, random.uniform(.25, .45), pyautogui.easeOutQuad)
 
   # click on the main target
-  pyautogui.moveTo(x, y, random.uniform(.29, .55))
+  pyautogui.moveTo(x, y, random.uniform(.22, .35))
   tinySleep()
   pyautogui.click(clicks=clicks)
