@@ -14,6 +14,7 @@ Mouse movements and typing is handled by `pyautogui` or other means, but not wit
 1. Analyzing key strokes: [TypeNet: Deep Learning Keystroke Biometrics](https://arxiv.org/abs/2101.05570)
 2. Research how to mimic human mouse movements: [BeCAPTCHA-Mouse: Synthetic Mouse Trajectories and Improved Bot Detection](https://arxiv.org/abs/2005.00890)
 
+
 ## Full Example
 
 The bot challenge that can be found here [bot.incolumitas.com/#botChallenge](https://bot.incolumitas.com/#botChallenge) will be solved in the following quick tutorial.
@@ -31,10 +32,12 @@ git clone https://github.com/NikolaiT/stealthy-scraping-tools
 cd stealthy-scraping-tools
 ```
 
-Activate a pipenv environment with:
+Activate an environment with:
 
 ```bash
-pipenv shell
+pew new -p python3 sst
+
+pew workon sst
 ```
 
 Then install `pyautogui`:

@@ -16,7 +16,6 @@ You can obtain the coordinates of your current mouse pointer with
 the bash command on Linux `xdotool getmouselocation`
 """
 
-
 def getPageSource():
   cmd = f'/usr/bin/node page_source.js'
   ps = subprocess.check_output(cmd, shell=True)
