@@ -1,6 +1,6 @@
 # Stealthy Scraping Tools
 
-Do not use puppeteer and playwright for scraping. [Explanation.](https://incolumitas.com/2021/05/20/avoid-puppeteer-and-playwright-for-scraping/)
+Do not use puppeteer and playwright for scraping. Or any other browser automation framework for that matter. [Why?](https://incolumitas.com/2021/05/20/avoid-puppeteer-and-playwright-for-scraping/)
 
 We only use the [CDP](https://developer.chrome.com/docs/devtools/) to obtain the page source and to get the absolute coordinates for an arbitrary CSS selector. That's all what is needed for efficient scraping.
 
