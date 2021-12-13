@@ -2,7 +2,7 @@ import time
 import random
 from mouse import humanMove
 from typing import humanTyping
-from .utils import *
+from sst_utils import *
 
 """
 You might have to adjust some coordinates. 
@@ -14,9 +14,8 @@ You can obtain the coordinates of your current mouse pointer with
 the bash command on Linux `xdotool getmouselocation`
 """
 
-
 def main():
-  startBrowser()
+  startBrowser('bot.incolumitas.com\n')
 
   # click link to get to the challenge
   coords = getCoords('li:nth-of-type(3) a')
