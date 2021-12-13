@@ -14,7 +14,6 @@ Mouse movements and typing is handled by `pyautogui` or other means, but not wit
 1. Analyzing key strokes: [TypeNet: Deep Learning Keystroke Biometrics](https://arxiv.org/abs/2101.05570)
 2. Research how to mimic human mouse movements: [BeCAPTCHA-Mouse: Synthetic Mouse Trajectories and Improved Bot Detection](https://arxiv.org/abs/2005.00890)
 
-
 ## Full Example
 
 The bot challenge that can be found here [bot.incolumitas.com/#botChallenge](https://bot.incolumitas.com/#botChallenge) will be solved in the following quick tutorial.
