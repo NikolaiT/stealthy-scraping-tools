@@ -31,7 +31,7 @@ def getCoords(selector, randomize_within_bcr=True):
 
 
 def startBrowser(address_bar):
-  os.system('google-chrome --remote-debugging-port=9222 --start-maximized --disable-notifications &')
+  os.system('google-chrome --remote-debugging-port=9222 --start-maximized --incognito --disable-notifications &')
   time.sleep(4)
 
   # visit https://bot.incolumitas.com/#botChallenge

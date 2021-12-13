@@ -18,6 +18,7 @@ def main():
   time.sleep(random.uniform(3, 5))
 
   # are there cookies to accept?
+  # cookie consent is in an iframe with id '#gdpr-consent-notice'
   coords = getCoords('button#save')
   print('Accept to Cookies ' + str(coords))
   humanMove(*coords)

@@ -5,8 +5,10 @@ const CDP = require('chrome-remote-interface');
 
 const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
-// node coords.js '#oss-form'
-// node coords.js '#oss-location'
+// given a selector or node_id returns x and y *relative* coordinates
+// coordinates are relative to the viewport
+// The x relative coordinate is the same as the absolute coordiante, as the browser is maximed
+// The y coordinate is less, because the browser has the address bar / header
 async function getCoordsAlt(css_selector) {
   let client;
   try {
@@ -39,6 +41,12 @@ async function getCoordsAlt(css_selector) {
     content_h = Math.abs(box_model["content"][5] - box_model["content"][1])
     center_y = box_model["content"][1] + random(content_h / 4.0, 3 * content_h / 4.0)
 
+    // given a selector or node_id returns x and y *relative* coordinates
+    // coordinates are relative to the viewport
+
+    // The x relative coordinate is the same as the absolute coordiante, as the browser is maximed
+    // The y coordinate is less, because the browser has the address bar / header
+
     const coords = {"x": center_x, "y": center_y, "node_id": result.nodeId, "root_node": documentNodeId};
     console.log(JSON.stringify(coords))
     return coords;
@@ -51,8 +59,7 @@ async function getCoordsAlt(css_selector) {
   }
 }
 
-
-async function getCoords(css_selector) {
+async function getCoords(css_selector, context=null) {
   let client;
   try {
     // connect to endpoint
@@ -71,6 +78,8 @@ async function getCoords(css_selector) {
 
     // get offset screen positioning
     const screenPos = await Runtime.evaluate({
+      // contextId
+      // https://chromedevtools.github.io/devtools-protocol/tot/Runtime/#method-evaluate
       expression: "JSON.stringify({offsetY: window.screen.height - window.innerHeight, offsetX: window.screen.width - window.innerWidth})"
     });
 
