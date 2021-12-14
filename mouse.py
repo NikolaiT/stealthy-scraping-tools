@@ -63,3 +63,10 @@ def humanMove(x, y, clicks=1):
   pyautogui.moveTo(x, y, random.uniform(.22, .35))
   tinySleep()
   pyautogui.click(clicks=clicks)
+
+
+def humanScroll(steps, clicks=(5, 20), direction=1):
+  for i in range(steps):
+    ran_click = random.uniform(*clicks)
+    pyautogui.scroll(direction * ran_click)
+    time.sleep(random.uniform(0.5, 1.329))

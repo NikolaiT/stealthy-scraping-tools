@@ -1,8 +1,9 @@
 import time
 import random
-from mouse import humanMove
-from typing import humanTyping
+from mouse import humanMove, humanScroll
+from typing import humanTyping, typeNormal
 from sst_utils import *
+import pyautogui
 
 """
 this is an example how to scrape www.immobilienscout24.de with stealthy-scraping-tools
@@ -13,52 +14,45 @@ advanced?
 """
 
 def main():
-  startBrowser('www.immobilienscout24.de\n')
+  startBrowser('www.immobilienscout24.de\n', args=['--incognito'])
 
   time.sleep(random.uniform(3, 5))
 
   # are there cookies to accept?
   # cookie consent is in an iframe with id '#gdpr-consent-notice'
-  coords = getCoords('button#save')
+  # coords = getCoords('button#save', '#gdpr-consent-notice')
+  coords = 1099, 859
   print('Accept to Cookies ' + str(coords))
   humanMove(*coords)
+  time.sleep(random.uniform(1.5, 2.5))
+
+  # enter City
+  input_loc = getCoords('#oss-location')
+  humanMove(*input_loc, clicks=1)
+  time.sleep(random.uniform(0.25, 1.25))
+  typeNormal('K')
+  time.sleep(random.uniform(1.5, 2.5))
+
+  pyautogui.press('down')
+  time.sleep(random.uniform(0.5, 1.0))
+  pyautogui.press('down')
+  time.sleep(random.uniform(0.5, 1.0))
+  pyautogui.press('enter')
+
+  humanMove(160, 703, clicks=1)
   time.sleep(random.uniform(0.5, 1.0))
 
-  # # enter username
-  # username = getCoords('input[name="userName"]')
-  # humanMove(*username, clicks=2)
-  # time.sleep(random.uniform(0.25, 1.25))
-  # humanTyping('IamNotABotISwear\n', speed=(0.005, 0.008))
+  # submit
+  submit = getCoords('button.oss-main-criterion.oss-button.button-primary.one-whole')
+  humanMove(*submit)
 
-  # time.sleep(random.uniform(0.5, 1.0))
+  time.sleep(random.uniform(4, 5.0))
 
-  # # enter email
-  # email = getCoords('input[name="eMail"]')
-  # humanMove(*email, clicks=3)
-  # time.sleep(random.uniform(0.25, 1.25))
-  # humanTyping('bot@spambot.com\n', speed=(0.005, 0.008))
-
-  # time.sleep(random.uniform(0.5, 1.0))
-
-  # # agree to the terms
-  # terms = getCoords('input[name="terms"]')
-  # humanMove(*terms)
-
-  # # select cats
-  # cat = getCoords('#bigCat')
-  # humanMove(*cat)
-
-  # # submit
-  # submit = getCoords('#submit')
-  # humanMove(*submit)
-
-  # # press the final enter
-  # time.sleep(random.uniform(2.5, 3.4))
-  # humanTyping('\n', speed=(0.005, 0.008))
+  humanScroll(7, (5, 20), -1)
 
   # # finally get the page source
-  # text = getPageSource()
-  # print('Got {} bytes of page soure'.format(len(text)))
+  text = getPageSource()
+  print('Got {} bytes of page soure'.format(len(text)))
 
 
 if __name__ == '__main__':

@@ -26,7 +26,7 @@ def doubleHit(key1, key2):
     pyautogui.keyUp(key1)
 
 
-def humanTyping(text, speed=(0.007, 0.01), double_hit=False):
+def humanTyping(text, speed=(0.01, 0.025), double_hit=False):
   """
   Mostly the keydown/keyup pairs are in order, but
   sometimes we want two keydown's at the same time.
@@ -40,14 +40,19 @@ def humanTyping(text, speed=(0.007, 0.01), double_hit=False):
   while i <= len(text):
     if speed:
       time.sleep(random.uniform(*speed))
+
     if double_hit is True and random.random() < .3 and i+1 < len(text):
       doubleHit(text[i], text[i+1])
       i += 2
     else:
       pyautogui.keyDown(text[i])
-      tinySleep()
+      # tinySleep()
       pyautogui.keyUp(text[i])
       i += 1
 
     if i >= len(text):
       break
+
+
+def typeNormal(text):
+  pyautogui.write(text, interval=0.25)
