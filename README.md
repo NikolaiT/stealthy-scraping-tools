@@ -57,6 +57,18 @@ And then run the bot with:
 python example.py
 ```
 
+## Docker
+
+Build this Dockerfile:
+
+```
+docker build -t sst:0.0.1 .
+```
+
+```
+docker run --network="host" sst:0.0.1
+```
+
 ## TODO
 
 + Look at Kernel/OS level mouse/keyboard control commands (Ditch `pyautogui`)

@@ -12,7 +12,7 @@ async function evalCommand(command) {
     await Promise.all([Page.enable(), Runtime.enable(), DOM.enable()]);
 
     const evalRes = await Runtime.evaluate({expression: command});
-    console.log(evalRes)
+    console.log(evalRes.result.value);
 
   } catch (err) {
       console.error(err);
