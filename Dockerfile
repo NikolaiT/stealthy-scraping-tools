@@ -31,16 +31,8 @@ RUN curl --silent --location https://deb.nodesource.com/setup_14.x | bash - &&\
 RUN pip3 install pyautogui python-xlib PyVirtualDisplay
 
 COPY . .
-RUN pip3 install -e .
 
-RUN echo "Version [google-chrome-stable]" && google-chrome-stable --version
-
-RUN apt-get install -y fonts-roboto
-RUN apt-get install -y fonts-ubuntu
-RUN apt-get install -y ttf-bitstream-vera
-RUN apt-get install -y fonts-crosextra-caladea
-RUN apt-get install -y fonts-cantarell
-RUN apt-get install -y fonts-open-sans
+RUN apt-get install -y fonts-roboto fonts-ubuntu ttf-bitstream-vera fonts-crosextra-caladea fonts-cantarell fonts-open-sans
 
 RUN npm install chrome-remote-interface
 

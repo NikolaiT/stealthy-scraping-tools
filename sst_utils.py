@@ -37,7 +37,12 @@ def getCoords(selector, randomize_within_bcr=True):
 
 def startBrowser(address_bar, args=[]):
   arg_str = ' '.join(args)
+
   startCmd = f'google-chrome --remote-debugging-port=9222 --start-maximized --disable-notifications {arg_str} &'
+
+  if os.getenv('DOCKER') == '1':
+    startCmd = f'xvfb-run -e /dev/stdout --server-num=99 --server-args="-ac -screen 0 1920x1080x24 -nolisten tcp -nolisten unix" google-chrome --remote-debugging-port=9222 --start-maximized --disable-notifications {arg_str} &'
+    
   os.system(startCmd)
   time.sleep(4)
 
