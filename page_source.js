@@ -1,5 +1,4 @@
 // page_source.js
-
 const CDP = require('chrome-remote-interface');
 
 async function getPageSource() {
@@ -8,9 +7,9 @@ async function getPageSource() {
     // connect to endpoint
     client = await CDP();
     // extract domains
-    const { Page, Runtime, DOM } = client;
+    const { Runtime } = client;
     // enable events then start!
-    await Promise.all([Page.enable(), Runtime.enable(), DOM.enable()]);
+    await Promise.all([Runtime.enable()]);
 
     // get the page source
     const rootNode = await DOM.getDocument({ depth: -1 });

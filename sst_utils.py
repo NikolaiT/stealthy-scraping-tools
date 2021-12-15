@@ -11,6 +11,11 @@ def getPageSource():
   ps = subprocess.check_output(cmd, shell=True)
   return ps
 
+def evalJS(command):
+  command = command.replace('\n', '')
+  cmd = f"/usr/bin/node eval_js.js '{command}'"
+  ps = subprocess.check_output(cmd, shell=True)
+  return ps
 
 def getCoords(selector, randomize_within_bcr=True):
   """

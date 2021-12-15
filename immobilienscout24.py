@@ -1,7 +1,9 @@
 import time
 import random
 from mouse import humanMove, humanScroll
-from typing import humanTyping, typeNormal
+import json 
+import pprint
+from typing import typeNormal
 from sst_utils import *
 import pyautogui
 
@@ -15,7 +17,6 @@ advanced?
 
 def main():
   startBrowser('www.immobilienscout24.de\n', args=['--incognito'])
-
   time.sleep(random.uniform(3, 5))
 
   # are there cookies to accept?
@@ -39,7 +40,22 @@ def main():
   time.sleep(random.uniform(0.5, 1.0))
   pyautogui.press('enter')
 
-  humanMove(160, 703, clicks=1)
+  humanMove(315, 255, clicks=1)
+  time.sleep(random.uniform(0.5, 1.0))
+
+  # input price
+  input_price = getCoords('#oss-price')
+  humanMove(*input_price, clicks=1)
+  time.sleep(random.uniform(0.25, 1.25))
+  typeNormal('700')
+
+  # input area
+  input_area = getCoords('#oss-area')
+  humanMove(*input_area, clicks=1)
+  time.sleep(random.uniform(0.25, 1.25))
+  typeNormal('45')
+
+  humanMove(1217, 495, clicks=1)
   time.sleep(random.uniform(0.5, 1.0))
 
   # submit
@@ -50,9 +66,27 @@ def main():
 
   humanScroll(7, (5, 20), -1)
 
-  # # finally get the page source
-  text = getPageSource()
-  print('Got {} bytes of page soure'.format(len(text)))
+  # finally parse the listings
+  parse_listings = """var res = [];
+document.querySelectorAll(".result-list__listing").forEach((el) => {
+  let title = el.querySelector(".result-list-entry__brand-title");
+  let details = el.querySelector(".result-list-entry__criteria");
+
+  if (title) {
+    let obj = {title: title.textContent};
+    if (details) {
+      obj.price = details.querySelector("dl.grid-item:nth-child(1)").textContent;
+      obj.area = details.querySelector("dl.grid-item:nth-child(2)").textContent;
+      obj.rooms = details.querySelector("dl.grid-item:nth-child(3)").textContent;
+    }
+    res.push(obj)
+  }
+})
+console.log(JSON.stringify(res))"""
+
+  listings = evalJS(parse_listings)
+  print(listings)
+  # pprint.pprint(json.loads(listings))
 
 
 if __name__ == '__main__':
