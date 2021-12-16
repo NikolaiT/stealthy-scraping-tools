@@ -7,9 +7,9 @@ async function getPageSource() {
     // connect to endpoint
     client = await CDP();
     // extract domains
-    const { Runtime } = client;
+    const { Page, Runtime, DOM } = client;
     // enable events then start!
-    await Promise.all([Runtime.enable()]);
+    await Promise.all([Page.enable(), Runtime.enable(), DOM.enable()]);
 
     // get the page source
     const rootNode = await DOM.getDocument({ depth: -1 });

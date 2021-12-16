@@ -53,13 +53,10 @@ def getCoords(selector, randomize_within_bcr=True):
 def startBrowser(address_bar, args=[]):
   arg_str = ' '.join(args)
   startCmd = f'google-chrome --remote-debugging-port=9222 --start-maximized --disable-notifications {arg_str} &'
-
-  if os.getenv('DOCKER') == '1':
-    goto('https://www.immobilienscout24.de')
-  else:
-    os.system(startCmd)
-    time.sleep(6)
-    humanMove(168, 79)
-    time.sleep(random.uniform(0.5, 1.5))
-    humanTyping(address_bar, speed=(0.005, 0.008))
-    time.sleep(random.uniform(1.5, 2.5))
+  os.system(startCmd)
+  time.sleep(6)
+  
+  humanMove(168, 79)
+  time.sleep(random.uniform(0.5, 1.5))
+  humanTyping(address_bar, speed=(0.005, 0.008))
+  time.sleep(random.uniform(1.5, 2.5))

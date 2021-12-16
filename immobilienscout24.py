@@ -14,7 +14,11 @@ advanced?
 """
 
 def main():
-  startBrowser('www.immobilienscout24.de\n', args=['--incognito'])
+  if os.getenv('DOCKER') == '1':
+    goto('https://www.immobilienscout24.de')
+  else:  
+    startBrowser('www.immobilienscout24.de\n', args=['--incognito'])
+    
   time.sleep(random.uniform(3, 6))
 
   # are there cookies to accept?

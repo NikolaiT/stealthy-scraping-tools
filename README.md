@@ -66,7 +66,7 @@ docker build -t sst:0.0.1 .
 ```
 
 ```
-docker run --network="host" sst:0.0.1
+docker run --network="host" --shm-size=2g sst:0.0.1
 ```
 
 ## TODO

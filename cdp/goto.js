@@ -23,6 +23,8 @@ async function pageNav(url) {
   }
 }
 
-pageNav().then((res) => {
-  console.log(res);
-})
+const argLength = process.argv.length;
+
+if (argLength === 3) {
+  pageNav(process.argv[2]);
+}
