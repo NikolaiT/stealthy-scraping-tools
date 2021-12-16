@@ -65,6 +65,11 @@ Build this Dockerfile:
 docker build -t sst:0.0.1 .
 ```
 
+Avoid chrome in docker crashing: https://github.com/stephen-fox/chrome-docker/issues/8
+
+1. Option 1: Run chrome with --disable-dev-shm-usage
+2. Option 2: Set /dev/shm size to a reasonable amount `docker run -it --shm-size=1g` replacing 1g with whatever amount you want.
+
 ```
 docker run --network="host" --shm-size=2g sst:0.0.1
 ```
