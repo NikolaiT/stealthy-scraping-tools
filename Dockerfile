@@ -33,7 +33,7 @@ RUN pip3 install pyautogui python-xlib PyVirtualDisplay
 RUN apt-get install -y fonts-roboto fonts-ubuntu ttf-bitstream-vera fonts-crosextra-caladea fonts-cantarell fonts-open-sans ttf-wqy-zenhei
 
 # install debs error if combine together
-RUN apt install -y --no-install-recommends --allow-unauthenticated x11vnc fluxbox \
+RUN apt install -y --no-install-recommends --allow-unauthenticated x11vnc fluxbox xxd \
     && apt autoclean -y \
     && apt autoremove -y \
     && rm -rf /var/lib/apt/lists/*
@@ -47,19 +47,20 @@ RUN groupadd -r browserUser && useradd -r -g browserUser -G audio,video browserU
   && mkdir -p /home/browserUser/Downloads \
   && chown -R browserUser:browserUser /home/browserUser
 
-# Application specific environment variables
-ENV DISPLAY=:99
-# By default, only screen 0 exists and has the dimensions 1280x1024x8
-ENV XVFB_WHD=1920x1080x24
-# x11vnc password
-ENV X11VNC_PASSWORD=test
-
-# This variable tells our source code that its invoked within a Docker container
-ENV DOCKER=1
-
 RUN chmod 755 ./start.sh
 
 # Run everything after as non-privileged user.
 USER browserUser
+
+# Application specific environment variables
+# disp = Display(visible=True, size=(1920, 1080), backend="xvfb", use_xauth=True); disp.start()
+# set's DISPLAY=:1
+ENV DISPLAY=:1
+# By default, only screen 0 exists and has the dimensions 1280x1024x8
+ENV XVFB_WHD=1920x1080x24
+# x11vnc password
+ENV X11VNC_PASSWORD=test
+# This variable tells our source code that its invoked within a Docker container
+ENV DOCKER=1
 
 ENTRYPOINT [ "./start.sh" ]

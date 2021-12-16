@@ -1,6 +1,7 @@
 import time
 import os
 import random
+import math
 import json
 import subprocess
 from behavior.behavior import humanMove, humanTyping
@@ -37,15 +38,14 @@ def getCoords(selector, randomize_within_bcr=True):
   script_path = getScriptPath('coords.js')
   cmd = f'node {script_path} "{selector}"'
   coords = subprocess.check_output(cmd, shell=True)
-  print(coords)
   parsed = json.loads(coords)
 
   x = parsed['x']
   y = parsed['y']
 
   if randomize_within_bcr:
-    x += random.randrange(0, int(parsed['width']))
-    y += random.randrange(0, int(parsed['height']))
+    x += random.randrange(0, math.floor(parsed['width'] / 2))
+    # y += random.randrange(0, math.floor(parsed['height'] / 2))
 
   return x, y
 
@@ -53,10 +53,16 @@ def getCoords(selector, randomize_within_bcr=True):
 def startBrowser(address_bar, args=[]):
   arg_str = ' '.join(args)
   startCmd = f'google-chrome --remote-debugging-port=9222 --start-maximized --disable-notifications {arg_str} &'
-  os.system(startCmd)
-  time.sleep(6)
   
-  humanMove(168, 79)
-  time.sleep(random.uniform(0.5, 1.5))
-  humanTyping(address_bar, speed=(0.005, 0.008))
-  time.sleep(random.uniform(1.5, 2.5))
+  if os.getenv('DOCKER') == '1':
+    startCmd = 'google-chrome --remote-debugging-port=9222 --no-sandbox --disable-notifications --start-maximized --no-first-run --no-default-browser-check &'
+    # startCmd = 'google-chrome --remote-debugging-port=9222 --no-sandbox --disable-notifications --start-maximized --no-first-run --no-default-browser-check --incognito &'
+  
+  os.system(startCmd)
+  time.sleep(5)
+
+  if os.getenv('DOCKER') != '1':
+    humanMove(168, 79)
+    time.sleep(random.uniform(0.5, 1.5))
+    humanTyping(address_bar, speed=(0.005, 0.008))
+    time.sleep(random.uniform(1.5, 2.5))

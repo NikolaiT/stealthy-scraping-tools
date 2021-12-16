@@ -4,11 +4,14 @@ import os
 
 if os.getenv('DOCKER') == '1':
   from pyvirtualdisplay.display import Display
+  import os 
+  import time
+
   disp = Display(visible=True, size=(1920, 1080), backend="xvfb", use_xauth=True)
   disp.start()
 
-  print(f'Started display: {disp}')
-  print(os.environ['DISPLAY'])
+  print('Started display!')
+  print('DISPLAY={}'.format(os.environ['DISPLAY']))
 
   import Xlib.display
   import pyautogui
