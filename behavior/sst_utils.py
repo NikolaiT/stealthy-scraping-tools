@@ -31,6 +31,7 @@ def getCoords(selector, randomize_within_bcr=True):
   script_path = getScriptPath('coords.js')
   cmd = f'node {script_path} "{selector}"'
   coords = subprocess.check_output(cmd, shell=True)
+  print(coords)
   parsed = json.loads(coords)
 
   x = parsed['x']
@@ -49,12 +50,11 @@ def startBrowser(address_bar, args=[]):
   startCmd = f'google-chrome --remote-debugging-port=9222 --start-maximized --disable-notifications {arg_str} &'
 
   if os.getenv('DOCKER') == '1':
-    startCmd = f'google-chrome --remote-debugging-port=9222 --start-maximized --no-first-run --no-sandbox --disable-setuid-sandbox --no-default-browser-check {arg_str} &'
+    pass
+  else:
+    os.system(startCmd)
+    time.sleep(6)
 
-  os.system(startCmd)
-  time.sleep(4)
-
-  # visit https://bot.incolumitas.com/#botChallenge
   humanMove(168, 79)
   time.sleep(random.uniform(0.5, 1.5))
   humanTyping(address_bar, speed=(0.005, 0.008))

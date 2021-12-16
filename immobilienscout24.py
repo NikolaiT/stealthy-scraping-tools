@@ -3,6 +3,7 @@ import random
 import json 
 import pprint
 from behavior.sst_utils import *
+from behavior.behavior import humanMove, humanScroll, press, typeNormal
 
 """
 this is an example how to scrape www.immobilienscout24.de with stealthy-scraping-tools
@@ -14,9 +15,7 @@ advanced?
 
 def main():
   startBrowser('www.immobilienscout24.de\n', args=['--incognito'])
-  time.sleep(random.uniform(3, 5))
-
-  from behavior.behavior import humanMove, humanScroll, press, typeNormal
+  time.sleep(random.uniform(3, 6))
 
   # are there cookies to accept?
   # cookie consent is in an iframe with id '#gdpr-consent-notice'
