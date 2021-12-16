@@ -1,6 +1,5 @@
 import time
 import random
-from behavior.behavior import humanMove, humanScroll, press, typeNormal
 import json 
 import pprint
 from behavior.sst_utils import *
@@ -16,6 +15,8 @@ advanced?
 def main():
   startBrowser('www.immobilienscout24.de\n', args=['--incognito'])
   time.sleep(random.uniform(3, 5))
+
+  from behavior.behavior import humanMove, humanScroll, press, typeNormal
 
   # are there cookies to accept?
   # cookie consent is in an iframe with id '#gdpr-consent-notice'

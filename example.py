@@ -1,6 +1,6 @@
 import time
 import random
-from behavior.mouse import humanMove
+from behavior.behavior import humanMove
 from typing import humanTyping
 from behavior.sst_utils import *
 

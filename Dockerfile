@@ -30,16 +30,19 @@ RUN curl --silent --location https://deb.nodesource.com/setup_14.x | bash - &&\
 # Move this into requirements.txt at some time
 RUN pip3 install pyautogui python-xlib PyVirtualDisplay
 
-COPY . .
-
 RUN apt-get install -y fonts-roboto fonts-ubuntu ttf-bitstream-vera fonts-crosextra-caladea fonts-cantarell fonts-open-sans
 
-RUN npm install chrome-remote-interface
+# RUN npm install chrome-remote-interface
+
+COPY . .
 
 # Application specific environment variables
 ENV DISPLAY=:99
 # By default, only screen 0 exists and has the dimensions 1280x1024x8
 ENV XVFB_WHD=1920x1080x24
+
+# This variable tells our source code that its invoked within a Docker container
+ENV DOCKER=1
 
 RUN chmod 755 ./start.sh
 ENTRYPOINT [ "./start.sh" ]

@@ -7,6 +7,9 @@ if os.getenv('DOCKER') == '1':
   disp = Display(visible=True, size=(1920, 1080), backend="xvfb", use_xauth=True)
   disp.start()
 
+  print(f'Started display: {disp}')
+  print(os.environ['DISPLAY'])
+
   import Xlib.display
   import pyautogui
   pyautogui._pyautogui_x11._display = Xlib.display.Display(os.environ['DISPLAY'])
