@@ -1,2 +1,2 @@
-node_modules/*
+cdp/node_modules/*
 target.py

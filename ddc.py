@@ -4,8 +4,7 @@ import random
 import subprocess
 import json
 import re
-from mouse import humanMove
-from typing import humanTyping
+from behavior.behavior import humanMove, humanTyping
 from target import target
 import pyautogui
 

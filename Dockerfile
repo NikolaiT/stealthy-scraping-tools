@@ -36,4 +36,10 @@ RUN apt-get install -y fonts-roboto fonts-ubuntu ttf-bitstream-vera fonts-crosex
 
 RUN npm install chrome-remote-interface
 
-ENTRYPOINT ["python3", "-u", "immobilienscout24.py"]
+# Application specific environment variables
+ENV DISPLAY=:99
+# By default, only screen 0 exists and has the dimensions 1280x1024x8
+ENV XVFB_WHD=1920x1080x24
+
+RUN chmod 755 ./start.sh
+ENTRYPOINT [ "./start.sh" ]

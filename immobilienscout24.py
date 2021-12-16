@@ -1,22 +1,9 @@
 import time
 import random
-from mouse import humanMove, humanScroll
+from behavior.behavior import humanMove, humanScroll, press, typeNormal
 import json 
 import pprint
-from typing import typeNormal
-from sst_utils import *
-import os
-
-if os.getenv('DOCKER') == '1':
-  from pyvirtualdisplay.display import Display
-  disp = Display(visible=True, size=(1920, 1080), backend="xvfb", use_xauth=True)
-  disp.start()
-
-  import Xlib.display
-  import pyautogui
-  pyautogui._pyautogui_x11._display = Xlib.display.Display(os.environ['DISPLAY'])
-else:
-  import pyautogui
+from behavior.sst_utils import *
 
 """
 this is an example how to scrape www.immobilienscout24.de with stealthy-scraping-tools
@@ -45,11 +32,11 @@ def main():
   typeNormal('K')
   time.sleep(random.uniform(1.5, 2.5))
 
-  pyautogui.press('down')
+  press('down')
   time.sleep(random.uniform(0.5, 1.0))
-  pyautogui.press('down')
+  press('down')
   time.sleep(random.uniform(0.5, 1.0))
-  pyautogui.press('enter')
+  press('enter')
 
   humanMove(315, 255, clicks=1)
   time.sleep(random.uniform(0.5, 1.0))

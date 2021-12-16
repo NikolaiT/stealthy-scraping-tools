@@ -1,8 +1,8 @@
 import time
 import random
-from mouse import humanMove
+from behavior.mouse import humanMove
 from typing import humanTyping
-from sst_utils import *
+from behavior.sst_utils import *
 
 """
 You might have to adjust some coordinates. 
