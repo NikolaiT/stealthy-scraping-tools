@@ -53,7 +53,9 @@ def main():
     humanMove(1889, 103)
     time.sleep(random.uniform(2.5, 3.5))
 
-  for i in range(3):
+  for i in range(7):
+    time.sleep(random.uniform(0.5, 1.0))
+
     if os.getenv('DOCKER') == '1':
       goto('https://www.immobilienscout24.de')
       time.sleep(random.uniform(4, 7))
@@ -63,31 +65,29 @@ def main():
     # coords = getCoords('button#save', '#gdpr-consent-notice')
     if i == 0:
       coords = 1099, 859
-      print('Accept to Cookies ' + str(coords))
+      print(f'[{i}] Accept to Cookies {coords}')
       humanMove(*coords)
       time.sleep(random.uniform(3.5, 4.5))
 
     # enter City
-    input_loc = getCoords('#oss-location')
-    print('Enter City ' + str(input_loc))
-    humanMove(*input_loc, clicks=2)
-    time.sleep(random.uniform(0.25, 1.25))
-    typeNormal('K')
-    time.sleep(random.uniform(1.5, 2.5))
-
-    press('down')
-    time.sleep(random.uniform(0.5, 1.0))
-    press('down')
-    time.sleep(random.uniform(0.5, 1.0))
-    press('enter')
-
-    humanMove(315, 255, clicks=1)
-    time.sleep(random.uniform(0.5, 1.0))
+    if i == 0:
+      input_loc = getCoords('#oss-location')
+      print('Enter City ' + str(input_loc))
+      humanMove(*input_loc, clicks=2)
+      time.sleep(random.uniform(0.25, 1.25))
+      typeNormal('K')
+      time.sleep(random.uniform(1.5, 2.5))
+      press('down')
+      time.sleep(random.uniform(0.5, 1.0))
+      press('down')
+      time.sleep(random.uniform(0.5, 1.0))
+      press('enter')
+      time.sleep(random.uniform(2.5, 3.5))
 
     # input price
     input_price = getCoords('input#oss-price')
     print('Enter Max Price ' + str(input_price))
-    humanMove(*input_price, clicks=1)
+    humanMove(*input_price, clicks=2)
     time.sleep(random.uniform(0.25, 1.25))
     typeNormal('700')
 
@@ -96,12 +96,9 @@ def main():
     # input area
     input_area = getCoords('input#oss-area')
     print('Enter Area ' + str(input_area))
-    humanMove(*input_area, clicks=1)
+    humanMove(*input_area, clicks=2)
     time.sleep(random.uniform(0.25, 1.25))
     typeNormal('45')
-
-    humanMove(1217, 495, clicks=1)
-    time.sleep(random.uniform(0.5, 1.0))
 
     # submit
     submit = getCoords('button.oss-main-criterion.oss-button.button-primary.one-whole')
