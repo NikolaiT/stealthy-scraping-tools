@@ -1,6 +1,6 @@
 import time
 import random
-import json 
+import json
 import pprint
 from behavior.sst_utils import *
 from behavior.behavior import humanMove, humanScroll, press, typeNormal
@@ -39,10 +39,10 @@ def main():
   time.sleep(random.uniform(3, 5))
 
   # enter the url
-  humanMove(168, 79)
-  time.sleep(random.uniform(0.5, 1.5))
-  humanTyping('www.immobilienscout24.de\n', speed=(0.005, 0.008))
-  time.sleep(random.uniform(1.5, 2.5))
+  # humanMove(168, 79)
+  # time.sleep(random.uniform(0.5, 1.5))
+  # humanTyping('www.immobilienscout24.de\n', speed=(0.005, 0.008))
+  # time.sleep(random.uniform(1.5, 2.5))
 
   if os.getenv('DOCKER') == '1':
     # close the annoying chrome error message bar
@@ -52,24 +52,25 @@ def main():
     humanMove(1893, 103)
     humanMove(1889, 103)
     time.sleep(random.uniform(2.5, 3.5))
-  
-  # if os.getenv('DOCKER') == '1':
-  #   goto('https://www.immobilienscout24.de')
-  #   time.sleep(random.uniform(4, 7))
-
-  # are there cookies to accept?
-  # cookie consent is in an iframe with id '#gdpr-consent-notice'
-  # coords = getCoords('button#save', '#gdpr-consent-notice')
-  coords = 1099, 859
-  print('Accept to Cookies ' + str(coords))
-  humanMove(*coords)
-  time.sleep(random.uniform(3.5, 4.5))
 
   for i in range(3):
+    if os.getenv('DOCKER') == '1':
+      goto('https://www.immobilienscout24.de')
+      time.sleep(random.uniform(4, 7))
+
+    # are there cookies to accept?
+    # cookie consent is in an iframe with id '#gdpr-consent-notice'
+    # coords = getCoords('button#save', '#gdpr-consent-notice')
+    if i == 0:
+      coords = 1099, 859
+      print('Accept to Cookies ' + str(coords))
+      humanMove(*coords)
+      time.sleep(random.uniform(3.5, 4.5))
+
     # enter City
     input_loc = getCoords('#oss-location')
     print('Enter City ' + str(input_loc))
-    humanMove(*input_loc, clicks=1)
+    humanMove(*input_loc, clicks=2)
     time.sleep(random.uniform(0.25, 1.25))
     typeNormal('K')
     time.sleep(random.uniform(1.5, 2.5))
