@@ -13,22 +13,36 @@ www.immobilienscout24.de is protected by advanced bot protection
 advanced?
 """
 
+
+def startFluxbox():
+  # start fluxbox
+  os.system('fluxbox &')
+  time.sleep(3)
+
+
+def startVNC():
+  # and a vnc server for debugging remotely
+  vnc_cmd = 'x11vnc -display {}.0 -forever -passwd {} &'.format(
+    os.environ['DISPLAY'],
+    os.environ['X11VNC_PASSWORD'],
+  )
+  print(vnc_cmd)
+  os.system(vnc_cmd)
+
+
 def main():
   if os.getenv('DOCKER') == '1':
-    # start fluxbox
-    os.system('fluxbox &')
-    time.sleep(3)
+    startFluxbox()
+    startVNC()
 
-    # and a vnc server for debugging remotely
-    vnc_cmd = 'x11vnc -display {}.0 -forever -passwd {} &'.format(
-      os.environ['DISPLAY'],
-      os.environ['X11VNC_PASSWORD'],
-    )
-    print(vnc_cmd)
-    os.system(vnc_cmd)
-
-  startBrowser('www.immobilienscout24.de\n', args=[])
+  startBrowser(args=[])
   time.sleep(random.uniform(3, 5))
+
+  # enter the url
+  humanMove(168, 79)
+  time.sleep(random.uniform(0.5, 1.5))
+  humanTyping('www.immobilienscout24.de\n', speed=(0.005, 0.008))
+  time.sleep(random.uniform(1.5, 2.5))
 
   if os.getenv('DOCKER') == '1':
     # close the annoying chrome error message bar
@@ -38,9 +52,10 @@ def main():
     humanMove(1893, 103)
     humanMove(1889, 103)
     time.sleep(random.uniform(2.5, 3.5))
-
-  goto('https://www.immobilienscout24.de')
-  time.sleep(random.uniform(4, 7))
+  
+  # if os.getenv('DOCKER') == '1':
+  #   goto('https://www.immobilienscout24.de')
+  #   time.sleep(random.uniform(4, 7))
 
   # are there cookies to accept?
   # cookie consent is in an iframe with id '#gdpr-consent-notice'
@@ -50,75 +65,76 @@ def main():
   humanMove(*coords)
   time.sleep(random.uniform(3.5, 4.5))
 
-  # enter City
-  input_loc = getCoords('#oss-location')
-  print('Enter City ' + str(input_loc))
-  humanMove(*input_loc, clicks=1)
-  time.sleep(random.uniform(0.25, 1.25))
-  typeNormal('K')
-  time.sleep(random.uniform(1.5, 2.5))
+  for i in range(3):
+    # enter City
+    input_loc = getCoords('#oss-location')
+    print('Enter City ' + str(input_loc))
+    humanMove(*input_loc, clicks=1)
+    time.sleep(random.uniform(0.25, 1.25))
+    typeNormal('K')
+    time.sleep(random.uniform(1.5, 2.5))
 
-  press('down')
-  time.sleep(random.uniform(0.5, 1.0))
-  press('down')
-  time.sleep(random.uniform(0.5, 1.0))
-  press('enter')
+    press('down')
+    time.sleep(random.uniform(0.5, 1.0))
+    press('down')
+    time.sleep(random.uniform(0.5, 1.0))
+    press('enter')
 
-  humanMove(315, 255, clicks=1)
-  time.sleep(random.uniform(0.5, 1.0))
+    humanMove(315, 255, clicks=1)
+    time.sleep(random.uniform(0.5, 1.0))
 
-  # input price
-  input_price = getCoords('input#oss-price')
-  print('Enter Max Price ' + str(input_price))
-  humanMove(*input_price, clicks=1)
-  time.sleep(random.uniform(0.25, 1.25))
-  typeNormal('700')
+    # input price
+    input_price = getCoords('input#oss-price')
+    print('Enter Max Price ' + str(input_price))
+    humanMove(*input_price, clicks=1)
+    time.sleep(random.uniform(0.25, 1.25))
+    typeNormal('700')
 
-  time.sleep(random.uniform(0.25, 1.25))
+    time.sleep(random.uniform(0.25, 1.25))
 
-  # input area
-  input_area = getCoords('input#oss-area')
-  print('Enter Area ' + str(input_area))
-  humanMove(*input_area, clicks=1)
-  time.sleep(random.uniform(0.25, 1.25))
-  typeNormal('45')
+    # input area
+    input_area = getCoords('input#oss-area')
+    print('Enter Area ' + str(input_area))
+    humanMove(*input_area, clicks=1)
+    time.sleep(random.uniform(0.25, 1.25))
+    typeNormal('45')
 
-  humanMove(1217, 495, clicks=1)
-  time.sleep(random.uniform(0.5, 1.0))
+    humanMove(1217, 495, clicks=1)
+    time.sleep(random.uniform(0.5, 1.0))
 
-  # submit
-  submit = getCoords('button.oss-main-criterion.oss-button.button-primary.one-whole')
-  print('Submit ' + str(submit))
-  humanMove(*submit)
+    # submit
+    submit = getCoords('button.oss-main-criterion.oss-button.button-primary.one-whole')
+    print('Submit ' + str(submit))
+    humanMove(*submit)
 
-  time.sleep(random.uniform(4, 5.0))
+    time.sleep(random.uniform(4, 5.0))
 
-  humanScroll(7, (5, 20), -1)
+    humanScroll(7, (5, 20), -1)
 
-  # finally parse the listings
-  parse_listings = """var res = [];
-document.querySelectorAll(".result-list__listing").forEach((el) => {
-let title = el.querySelector(".result-list-entry__brand-title");
-let details = el.querySelector(".result-list-entry__criteria");
+    # finally parse the listings
+    parse_listings = """var res = [];
+  document.querySelectorAll(".result-list__listing").forEach((el) => {
+  let title = el.querySelector(".result-list-entry__brand-title");
+  let details = el.querySelector(".result-list-entry__criteria");
 
-if (title) {
-  let obj = {
-    title: title.textContent,
-    url: el.querySelector("a.result-list-entry__brand-title-container").getAttribute("href"),
-  };
-  if (details) {
-    obj.price = details.querySelector("dl.grid-item:nth-child(1)").textContent;
-    obj.area = details.querySelector("dl.grid-item:nth-child(2)").textContent;
-    obj.rooms = details.querySelector("dl.grid-item:nth-child(3)").textContent;
+  if (title) {
+    let obj = {
+      title: title.textContent,
+      url: el.querySelector("a.result-list-entry__brand-title-container").getAttribute("href"),
+    };
+    if (details) {
+      obj.price = details.querySelector("dl.grid-item:nth-child(1)").textContent;
+      obj.area = details.querySelector("dl.grid-item:nth-child(2)").textContent;
+      obj.rooms = details.querySelector("dl.grid-item:nth-child(3)").textContent;
+    }
+    res.push(obj);
   }
-  res.push(obj);
-}
-});
-JSON.stringify(res);"""
+  });
+  JSON.stringify(res);"""
 
-  listings = evalJS(parse_listings)
-  # print(listings)
-  pprint.pprint(json.loads(listings))
+    listings = evalJS(parse_listings)
+    # print(listings)
+    pprint.pprint(json.loads(listings))
 
 
 if __name__ == '__main__':
