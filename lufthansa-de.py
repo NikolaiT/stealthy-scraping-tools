@@ -83,7 +83,7 @@ def main():
     print('Submit ' + str(submit))
     humanMove(*submit)
 
-    time.sleep(random.uniform(7, 12))
+    time.sleep(random.uniform(10, 14))
     humanScroll(3, (5, 20), -1)
 
 
