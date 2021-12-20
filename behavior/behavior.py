@@ -18,6 +18,7 @@ if os.getenv('DOCKER') == '1':
   pyautogui._pyautogui_x11._display = Xlib.display.Display(os.environ['DISPLAY'])
 else:
   import pyautogui
+  pyautogui.FAILSAFE = False
 
 
 def tinySleep():

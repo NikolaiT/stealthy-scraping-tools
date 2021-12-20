@@ -36,7 +36,7 @@ def getCoords(selector, randomize_within_bcr=True):
   Example: `node coords.js "li:nth-of-type(3) a"`
   """
   script_path = getScriptPath('coords.js')
-  cmd = f'node {script_path} "{selector}"'
+  cmd = f"node {script_path} '{selector}'"
   coords = subprocess.check_output(cmd, shell=True)
 
   x, y = 0, 0
@@ -48,10 +48,11 @@ def getCoords(selector, randomize_within_bcr=True):
 
     if randomize_within_bcr:
       x += random.randrange(0, math.floor(parsed['width'] / 2))
-      # y += random.randrange(0, math.floor(parsed['height'] / 2))
+      y += random.randrange(0, math.floor(parsed['height'] / 2))
   except Exception as e:
     print(e)
     print(cmd, coords)
+    return None
 
   return x, y
 

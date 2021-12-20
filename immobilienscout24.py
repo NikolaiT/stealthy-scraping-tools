@@ -58,9 +58,8 @@ def main():
   for i in range(7):
     time.sleep(random.uniform(0.5, 1.0))
 
-    if os.getenv('DOCKER') == '1':
-      goto('https://www.immobilienscout24.de')
-      time.sleep(random.uniform(4, 7))
+    goto('https://www.immobilienscout24.de')
+    time.sleep(random.uniform(4, 6))
 
     # are there cookies to accept?
     # cookie consent is in an iframe with id '#gdpr-consent-notice'
