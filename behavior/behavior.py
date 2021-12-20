@@ -143,7 +143,7 @@ def humanTyping(text, speed=(0.01, 0.025), double_hit=False):
 
 
 def clickNormal(clicks=1):
-  pyautogui.click(clicks)
+  pyautogui.click(clicks=clicks)
 
 
 def typeNormal(text):
