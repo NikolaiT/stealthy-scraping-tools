@@ -41,7 +41,6 @@ async function startProxyServer(proxy) {
   });
 }
 
-
 // Start local forwarding server with: node proxy_server.js http://username:password@proxy.example.com:3128
 // Use the local forwarding proxy server with google-chrome:
 // google-chrome --proxy-server="localhost:8947"
