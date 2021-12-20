@@ -59,16 +59,28 @@ python example.py
 
 ## Docker
 
-Build this Dockerfile:
+The Dockerfile is based on `Ubuntu 20.04`. 
+
+The Dockerfile uses `xvfb` from the python module `PyVirtualDisplay`.
+
+I use `pyautogui` for mouse and keyboard automation. 
+
+I use `fluxbox` as a tiny window manager and `x11vnc` (Virtual Network Computing server program) as a means to inspect the docker image and see what is going on.
+
+Build the Dockerfile:
 
 ```
 docker build -t sst:0.0.1 .
 ```
 
-Avoid chrome in docker crashing: https://github.com/stephen-fox/chrome-docker/issues/8
+Hint: Avoid chrome in docker crashing: https://github.com/stephen-fox/chrome-docker/issues/8
 
+```
 1. Option 1: Run chrome with --disable-dev-shm-usage
 2. Option 2: Set /dev/shm size to a reasonable amount `docker run -it --shm-size=1g` replacing 1g with whatever amount you want.
+```
+
+The docker option `--shm-size=2g` is really important:
 
 ```
 docker run --network="host" --shm-size=2g sst:0.0.1
