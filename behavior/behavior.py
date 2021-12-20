@@ -143,11 +143,15 @@ def humanTyping(text, speed=(0.01, 0.025), double_hit=False):
 
 
 def clickNormal(clicks=1):
-  pyautogui.click(clicks=clicks)
+  pyautogui.click(clicks=clicks, interval=0.25)
 
 
 def typeNormal(text):
   pyautogui.write(text, interval=0.25)
+
+
+def typeWrite(l):
+  pyautogui.typewrite(l, interval=0.22)
 
 
 def press(key):

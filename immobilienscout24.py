@@ -3,7 +3,7 @@ import random
 import json
 import pprint
 from behavior.sst_utils import *
-from behavior.behavior import humanMove, humanScroll, press, typeNormal, clickNormal
+from behavior.behavior import humanMove, humanScroll, press, typeNormal, clickNormal, typeWrite
 
 """
 this is an example how to scrape www.immobilienscout24.de with stealthy-scraping-tools
@@ -91,7 +91,7 @@ def main():
     print('Enter Max Price ' + str(input_price))
     humanMove(*input_price, clicks=1)
     time.sleep(random.uniform(0.25, 1.25))
-    clickNormal(clicks=2)
+    typeWrite(['backspace'] * 5)
     time.sleep(random.uniform(0.25, 0.75))
     typeNormal(str(random.randrange(600, 700)))
 
@@ -102,7 +102,7 @@ def main():
     print('Enter Area ' + str(input_area))
     humanMove(*input_area, clicks=1)
     time.sleep(random.uniform(0.25, 1.25))
-    clickNormal(clicks=2)
+    typeWrite(['backspace'] * 5)
     time.sleep(random.uniform(0.25, 0.75))
     typeNormal(str(random.randrange(40, 50)))
 
