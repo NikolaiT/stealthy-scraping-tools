@@ -37,7 +37,7 @@ def main():
     startFluxbox()
     startVNC()
 
-  startBrowser(args=[])
+  startBrowser(args=['--incognito' if os.getenv('DOCKER') != '1' else ''])
   time.sleep(random.uniform(3, 5))
 
   # enter the url
