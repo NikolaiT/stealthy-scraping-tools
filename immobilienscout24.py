@@ -3,14 +3,16 @@ import random
 import json
 import pprint
 from behavior.sst_utils import *
-from behavior.behavior import humanMove, humanScroll, press, typeNormal
+from behavior.behavior import humanMove, humanScroll, press, typeNormal, clickNormal
 
 """
 this is an example how to scrape www.immobilienscout24.de with stealthy-scraping-tools
 
-www.immobilienscout24.de is protected by advanced bot protection
+www.immobilienscout24.de is protected by advanced bot protection: Imperva
 
 advanced?
+
+Let's see ;)
 """
 
 
@@ -73,7 +75,7 @@ def main():
     if i == 0:
       input_loc = getCoords('#oss-location')
       print('Enter City ' + str(input_loc))
-      humanMove(*input_loc, clicks=2)
+      humanMove(*input_loc, clicks=1)
       time.sleep(random.uniform(0.25, 1.25))
       typeNormal('K')
       time.sleep(random.uniform(1.5, 2.5))
@@ -87,18 +89,22 @@ def main():
     # input price
     input_price = getCoords('input#oss-price')
     print('Enter Max Price ' + str(input_price))
-    humanMove(*input_price, clicks=2)
+    humanMove(*input_price, clicks=1)
     time.sleep(random.uniform(0.25, 1.25))
-    typeNormal('700')
+    clickNormal(clicks=2)
+    time.sleep(random.uniform(0.25, 0.75))
+    typeNormal(str(random.randrange(600, 700)))
 
     time.sleep(random.uniform(0.25, 1.25))
 
-    # input area
+    # input living area
     input_area = getCoords('input#oss-area')
     print('Enter Area ' + str(input_area))
-    humanMove(*input_area, clicks=2)
+    humanMove(*input_area, clicks=1)
     time.sleep(random.uniform(0.25, 1.25))
-    typeNormal('45')
+    clickNormal(clicks=2)
+    time.sleep(random.uniform(0.25, 0.75))
+    typeNormal(str(random.randrange(40, 50)))
 
     # submit
     submit = getCoords('button.oss-main-criterion.oss-button.button-primary.one-whole')
