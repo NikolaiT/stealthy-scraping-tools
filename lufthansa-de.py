@@ -87,9 +87,12 @@ def main():
       print(f'[{i}] Could not select return date. Keeping default value.')
 
     # submit
-    submit = getCoords('[type="submit"]')
-    print('Submit ' + str(submit))
-    humanMove(*submit)
+    try:
+      submit = getCoords('[type="submit"]')
+      print('Submit ' + str(submit))
+      humanMove(*submit)
+    except Exception as e:
+      print(f'[{i}] Could not submit search. Blocked?')
 
     # wait for quite some time
     time.sleep(random.uniform(10, 14))
