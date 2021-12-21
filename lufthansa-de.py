@@ -39,7 +39,7 @@ def main():
     humanMove(1889, 103)
     time.sleep(random.uniform(2.5, 3.5))
 
-  for i in range(100):
+  for i in range(150):
     print(f'[{i}] Searching for flights...')
     time.sleep(random.uniform(0.5, 1.0))
 
@@ -70,7 +70,7 @@ def main():
       time.sleep(random.uniform(0.5, 1.0))
     except Exception as e:
       print(f'[{i}] Could not enter flight destination. Blocked?')
-      break
+      continue
 
     # input return date
     try:
@@ -97,7 +97,7 @@ def main():
       humanMove(*submit)
     except Exception as e:
       print(f'[{i}] Could not submit search. Blocked?')
-      break
+      continue
 
     # wait for quite some time
     time.sleep(random.uniform(10, 14))
