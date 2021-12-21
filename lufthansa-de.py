@@ -47,13 +47,14 @@ def main():
     time.sleep(random.uniform(4, 6))
 
     # accept cookies?
-    try:
-      cookie_accept = getCoords('#cm-acceptAll')
-      if cookie_accept:
-        humanMove(*cookie_accept, clicks=1)
-        time.sleep(random.uniform(0.25, 1.25))
-    except Exception as e:
-      print('No cookies to accept, #cm-acceptAll not found')
+    if i == 0:
+      try:
+        cookie_accept = getCoords('#cm-acceptAll')
+        if cookie_accept:
+          humanMove(*cookie_accept, clicks=1)
+          time.sleep(random.uniform(0.25, 1.25))
+      except Exception as e:
+        print('No cookies to accept, #cm-acceptAll not found')
 
     # enter where to go
     input_loc = getCoords('input[placeholder="Nach"]')
