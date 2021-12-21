@@ -39,7 +39,8 @@ def main():
     humanMove(1889, 103)
     time.sleep(random.uniform(2.5, 3.5))
 
-  for i in range(20):
+  for i in range(100):
+    print(f'[{i}] Searching for flights...')
     time.sleep(random.uniform(0.5, 1.0))
 
     goto('https://www.lufthansa.com/de/de/homepage')
@@ -59,7 +60,7 @@ def main():
     print('Enter Departure ' + str(input_loc))
     humanMove(*input_loc, clicks=2)
     time.sleep(random.uniform(0.25, 1.25))
-    typeNormal(random.choice(['Berlin', 'Paris', 'Tel Aviv', 'Stockholm', 'Bogota', 'Bangkok']))
+    typeNormal(random.choice(['Berlin', 'Paris', 'Tel Aviv', 'Stockholm', 'Bogota', 'Bangkok', 'New York']))
     time.sleep(random.uniform(1.5, 2.5))
     press('down')
     time.sleep(random.uniform(0.5, 1.0))
@@ -73,7 +74,7 @@ def main():
     time.sleep(random.uniform(4.55, 5.55))
 
     # enter departure date
-    datetile = getCoords('[aria-label^="Choose Samstag, 25 Dezember 2021"]')
+    datetile = getCoords(random.choice(['[aria-label^="Choose Samstag, 25 Dezember 2021"]', '[aria-label^="Choose Sonntag, 26 Dezember 2021"]']))
     print('datetile ' + str(datetile))
     humanMove(*datetile, clicks=1)
     time.sleep(random.uniform(2.25, 3.25))
@@ -83,8 +84,17 @@ def main():
     print('Submit ' + str(submit))
     humanMove(*submit)
 
+    # wait for quite some time
     time.sleep(random.uniform(10, 14))
-    humanScroll(3, (5, 20), -1)
+    humanScroll(2, (5, 20), -1)
+
+    try:
+      calendar = getCoords('#page .calendarTab')
+      if calendar:
+        print(f'[{i}] Flight Results loaded!')
+    except Exception as e:
+      print(f'[{i}] Could not find calendar for flights. Page load to slow?')
+
 
 
 if __name__ == '__main__':
