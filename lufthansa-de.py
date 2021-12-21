@@ -69,16 +69,22 @@ def main():
     time.sleep(random.uniform(0.5, 1.0))
 
     # input return date
-    backdate = getCoords('input[placeholder="Rückflugdatum"]')
-    print('backdate ' + str(backdate))
-    humanMove(*backdate, clicks=1)
-    time.sleep(random.uniform(4.55, 5.55))
+    try:
+      backdate = getCoords('input[placeholder="Rückflugdatum"]')
+      print('backdate ' + str(backdate))
+      humanMove(*backdate, clicks=1)
+      time.sleep(random.uniform(4.55, 5.55))
+    except Exception as e:
+      print(f'[{i}] Could not click on return value. Leaving untouched.')
 
     # enter departure date
-    datetile = getCoords(random.choice(['[aria-label^="Choose Samstag, 25 Dezember 2021"]', '[aria-label^="Choose Sonntag, 26 Dezember 2021"]']))
-    print('datetile ' + str(datetile))
-    humanMove(*datetile, clicks=1)
-    time.sleep(random.uniform(2.25, 3.25))
+    try:
+      datetile = getCoords(random.choice(['[aria-label^="Choose Samstag, 25 Dezember 2021"]', '[aria-label^="Choose Sonntag, 26 Dezember 2021"]']))
+      print('datetile ' + str(datetile))
+      humanMove(*datetile, clicks=1)
+      time.sleep(random.uniform(2.25, 3.25))
+    except Exception as e:
+      print(f'[{i}] Could not select return date. Keeping default value.')
 
     # submit
     submit = getCoords('[type="submit"]')
