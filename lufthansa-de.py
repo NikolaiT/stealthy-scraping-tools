@@ -57,16 +57,20 @@ def main():
         print('No cookies to accept, #cm-acceptAll not found')
 
     # enter where to go
-    input_loc = getCoords('input[placeholder="Nach"]')
-    print('Enter Departure ' + str(input_loc))
-    humanMove(*input_loc, clicks=2)
-    time.sleep(random.uniform(0.25, 1.25))
-    typeNormal(random.choice(['Berlin', 'Paris', 'Tel Aviv', 'Stockholm', 'Bogota', 'Bangkok', 'New York']))
-    time.sleep(random.uniform(1.5, 2.5))
-    press('down')
-    time.sleep(random.uniform(0.5, 1.0))
-    press('enter')
-    time.sleep(random.uniform(0.5, 1.0))
+    try:
+      input_loc = getCoords('input[placeholder="Nach"]')
+      print('Enter Departure ' + str(input_loc))
+      humanMove(*input_loc, clicks=2)
+      time.sleep(random.uniform(0.25, 1.25))
+      typeNormal(random.choice(['Berlin', 'Paris', 'Tel Aviv', 'Stockholm', 'Bogota', 'Bangkok', 'New York']))
+      time.sleep(random.uniform(1.5, 2.5))
+      press('down')
+      time.sleep(random.uniform(0.5, 1.0))
+      press('enter')
+      time.sleep(random.uniform(0.5, 1.0))
+    except Exception as e:
+      print(f'[{i}] Could not enter flight destination. Blocked?')
+      break
 
     # input return date
     try:
@@ -93,6 +97,7 @@ def main():
       humanMove(*submit)
     except Exception as e:
       print(f'[{i}] Could not submit search. Blocked?')
+      break
 
     # wait for quite some time
     time.sleep(random.uniform(10, 14))
