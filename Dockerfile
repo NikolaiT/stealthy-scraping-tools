@@ -38,16 +38,33 @@ RUN apt install -y --no-install-recommends --allow-unauthenticated x11vnc fluxbo
     && apt autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
+
+RUN apt-get update -y && apt install -y iptables sudo
+
 # RUN npm install chrome-remote-interface
 
 COPY . .
 
+# https://dev.to/emmanuelnk/using-sudo-without-password-prompt-as-non-root-docker-user-52bg
+# Create new user `docker` and disable 
+# password and gecos for later
+# --gecos explained well here:
+# https://askubuntu.com/a/1195288/635348
+RUN adduser --force-badname --disabled-password --gecos '' browserUser
+
 # Add a user to run the browser as non-root
-RUN groupadd -r browserUser && useradd -r -g browserUser -G audio,video browserUser \
-  && mkdir -p /home/browserUser/Downloads \
+RUN mkdir -p /home/browserUser/Downloads \
   && chown -R browserUser:browserUser /home/browserUser
 
-RUN chmod 755 ./start.sh
+RUN adduser browserUser sudo
+
+# Ensure sudo group users are not 
+# asked for a password when using 
+# sudo command by ammending sudoers file
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> \
+/etc/sudoers
+
+RUN chmod 755 start.sh
 
 # Run everything after as non-privileged user.
 USER browserUser

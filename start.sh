@@ -35,6 +35,21 @@ trap _kill_procs SIGTERM SIGINT
 # # To view a listing of the .Xauthority file, enter the following 
 # xauth list
 
+
+echo "Blocking all UDP traffic except DNS";
+id
+
+# https://serverfault.com/questions/222606/how-can-i-reject-all-incoming-udp-packets-except-for-dns-lookups/716035
+# how can I reject all traffic I didn't initiate with Linux netfilter?
+sudo iptables --version
+sudo iptables -A DOCKER-USER -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+sudo iptables -A DOCKER-USER -p udp --dport 53 -j ACCEPT -m comment --comment "we serve DNS"
+sudo iptables -A DOCKER-USER -p tcp --dport 53 -j ACCEPT -m comment --comment "DNS uses TCP too sometimes"
+
+sudo iptables -A DOCKER-USER -j DROP
+
+
 echo "Starting browser";
 # Avoid chrome in docker crashing: https://github.com/stephen-fox/chrome-docker/issues/8
 # Option 1: Run chrome with --disable-dev-shm-usage
@@ -46,7 +61,7 @@ sleep 5
 
 # https://abhishekvaid13.medium.com/pyautogui-headless-docker-mode-without-display-in-python-480480599fc4
 echo "Running bot";
-python3 -u lufthansa-de.py &
+python3 -u trainline.py &
 python=$!
 
 # echo "Starting x11vnc";

@@ -83,7 +83,7 @@ Hint: Avoid chrome in docker crashing: https://github.com/stephen-fox/chrome-doc
 The docker option `--shm-size=2g` is really important:
 
 ```
-docker run --network="host" --shm-size=2g sst:0.0.1
+docker run --cap-add=NET_ADMIN --network="host" --shm-size=2g sst:0.0.1
 ```
 
 ## TODO
