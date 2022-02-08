@@ -151,6 +151,14 @@ def typeNormal(text):
   pyautogui.write(text, interval=random.uniform(0.15, 0.25))
 
 
+def fastwrite(text):
+  pyautogui.write(text, interval=random.uniform(0.045, 0.075))
+
+
+def press(char):
+  pyautogui.press('char', presses=1)
+
+
 def typeWrite(l):
   pyautogui.typewrite(l, interval=0.22)
 

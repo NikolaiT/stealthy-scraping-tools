@@ -6,3 +6,6 @@ local_forward_proxy_server/node_modules/*
 trainline.py
 immo_env.env
 immo_env.py
+apartments.json
+
+immo_env.py

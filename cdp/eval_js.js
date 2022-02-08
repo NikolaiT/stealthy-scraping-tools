@@ -1,5 +1,7 @@
-// page_source.js
+// eval_js.js
+// caller has to write command to /tmp/evalCommand.txt'
 const CDP = require('chrome-remote-interface');
+const fs = require('fs');
 
 async function evalCommand(command) {
   let client;
@@ -25,6 +27,6 @@ async function evalCommand(command) {
 
 const argLength = process.argv.length;
 
-if (argLength === 3) {
-  evalCommand(process.argv[2]);
+if (argLength === 2) {
+  evalCommand(fs.readFileSync('/tmp/evalCommand.txt').toString());
 }
