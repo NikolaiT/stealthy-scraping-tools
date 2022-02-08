@@ -61,7 +61,7 @@ sleep 5
 
 # https://abhishekvaid13.medium.com/pyautogui-headless-docker-mode-without-display-in-python-480480599fc4
 echo "Running bot";
-python3 -u trainline.py &
+python3 -u immobilienscout24.py &
 python=$!
 
 # echo "Starting x11vnc";
