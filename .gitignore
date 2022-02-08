@@ -9,3 +9,6 @@ immo_env.py
 apartments.json
 
 immo_env.py
+
+*.pyc
+__pycache__/*
