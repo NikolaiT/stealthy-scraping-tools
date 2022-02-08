@@ -148,7 +148,7 @@ def clickNormal(clicks=1):
 
 
 def typeNormal(text):
-  pyautogui.write(text, interval=0.25)
+  pyautogui.write(text, interval=random.uniform(0.15, 0.25))
 
 
 def typeWrite(l):

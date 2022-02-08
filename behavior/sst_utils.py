@@ -66,4 +66,4 @@ def startBrowser(args=[]):
     # startCmd = 'google-chrome --remote-debugging-port=9222 --no-sandbox --disable-notifications --start-maximized --no-first-run --no-default-browser-check --incognito &'
   
   os.system(startCmd)
-  time.sleep(5)
+  time.sleep(random.uniform(4, 5))

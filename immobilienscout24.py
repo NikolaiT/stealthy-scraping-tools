@@ -3,7 +3,8 @@ import random
 import json
 import pprint
 from behavior.sst_utils import *
-from behavior.behavior import humanMove, humanScroll, press, typeNormal, clickNormal, typeWrite
+from behavior.behavior import humanMove, humanScroll, press, typeNormal, typeWrite
+import immo_env
 
 """
 this is an example how to scrape www.immobilienscout24.de with stealthy-scraping-tools
@@ -14,6 +15,49 @@ advanced?
 
 Let's see ;)
 """
+
+SEARCH_URL = immo_env.SEARCH_URL
+
+
+def input_manually():
+  # enter City
+  input_loc = getCoords('#oss-location')
+  print('Enter City ' + str(input_loc))
+  humanMove(*input_loc, clicks=1)
+  time.sleep(random.uniform(0.25, 1.25))
+  typeNormal('K')
+  time.sleep(random.uniform(1.5, 2.5))
+  press('down')
+  time.sleep(random.uniform(0.5, 1.0))
+  press('down')
+  time.sleep(random.uniform(0.5, 1.0))
+  press('enter')
+  time.sleep(random.uniform(2.5, 3.5))
+
+  # input price
+  input_price = getCoords('input#oss-price')
+  print('Enter Max Price ' + str(input_price))
+  humanMove(*input_price, clicks=1)
+  time.sleep(random.uniform(0.25, 1.25))
+  typeWrite(['backspace'] * 5)
+  time.sleep(random.uniform(0.25, 0.75))
+  typeNormal(str(random.randrange(600, 700)))
+
+  time.sleep(random.uniform(0.25, 1.25))
+
+  # input living area
+  input_area = getCoords('input#oss-area')
+  print('Enter Area ' + str(input_area))
+  humanMove(*input_area, clicks=1)
+  time.sleep(random.uniform(0.25, 1.25))
+  typeWrite(['backspace'] * 5)
+  time.sleep(random.uniform(0.25, 0.75))
+  typeNormal(str(random.randrange(40, 50)))
+
+  # submit
+  submit = getCoords('button.oss-main-criterion.oss-button.button-primary.one-whole')
+  print('Submit ' + str(submit))
+  humanMove(*submit)
 
 
 def startFluxbox():
@@ -37,14 +81,7 @@ def main():
     startFluxbox()
     startVNC()
 
-  startBrowser(args=['--incognito' if os.getenv('DOCKER') != '1' else ''])
-  time.sleep(random.uniform(3, 5))
-
-  # enter the url
-  # humanMove(168, 79)
-  # time.sleep(random.uniform(0.5, 1.5))
-  # humanTyping('www.immobilienscout24.de\n', speed=(0.005, 0.008))
-  # time.sleep(random.uniform(1.5, 2.5))
+  startBrowser(args=[])
 
   if os.getenv('DOCKER') == '1':
     # close the annoying chrome error message bar
@@ -55,89 +92,83 @@ def main():
     humanMove(1889, 103)
     time.sleep(random.uniform(2.5, 3.5))
 
-  for i in range(7):
-    time.sleep(random.uniform(0.5, 1.0))
+  goto('https://www.immobilienscout24.de')
+  # this is where the bot check is happening
+  # move the mouse a bit
+  for i in range(3):
+    humanMove(*(random.randrange(100, 800), random.randrange(100, 1000)), clicks=0)
+    time.sleep(random.uniform(0.5, 1))
 
-    goto('https://www.immobilienscout24.de')
-    time.sleep(random.uniform(4, 6))
+  # are there cookies to accept?
+  # cookie consent is in an iframe with id '#gdpr-consent-notice'
+  # coords = getCoords('button#save', '#gdpr-consent-notice')
+  coords = 1099, 859
+  print(f'Accept Cookies by clicking at {coords}')
+  humanMove(*coords)
+  time.sleep(random.uniform(3.5, 4.5))
 
-    # are there cookies to accept?
-    # cookie consent is in an iframe with id '#gdpr-consent-notice'
-    # coords = getCoords('button#save', '#gdpr-consent-notice')
-    if i == 0:
-      coords = 1099, 859
-      print(f'[{i}] Accept to Cookies {coords}')
-      humanMove(*coords)
-      time.sleep(random.uniform(3.5, 4.5))
+  # login with username and password
+  profile_button = getCoords('#link_loginAccountLink')
+  humanMove(*profile_button, clicks=0)
+  time.sleep(random.uniform(0.5, 2))
 
-    # enter City
-    if i == 0:
-      input_loc = getCoords('#oss-location')
-      print('Enter City ' + str(input_loc))
-      humanMove(*input_loc, clicks=1)
-      time.sleep(random.uniform(0.25, 1.25))
-      typeNormal('K')
-      time.sleep(random.uniform(1.5, 2.5))
-      press('down')
-      time.sleep(random.uniform(0.5, 1.0))
-      press('down')
-      time.sleep(random.uniform(0.5, 1.0))
-      press('enter')
-      time.sleep(random.uniform(2.5, 3.5))
+  login_button = getCoords("#is24-dropdown > div.MyscoutDropdownV2_LoginContainer__3X0hy.topnavigation__sso-login__link-list--logged-out > a")
+  humanMove(*login_button, clicks=1)
 
-    # input price
-    input_price = getCoords('input#oss-price')
-    print('Enter Max Price ' + str(input_price))
-    humanMove(*input_price, clicks=1)
-    time.sleep(random.uniform(0.25, 1.25))
-    typeWrite(['backspace'] * 5)
-    time.sleep(random.uniform(0.25, 0.75))
-    typeNormal(str(random.randrange(600, 700)))
+  time.sleep(random.uniform(2.5, 4))
 
-    time.sleep(random.uniform(0.25, 1.25))
+  user_input = getCoords('#username')
+  humanMove(*user_input, clicks=1)
+  time.sleep(random.uniform(0.25, 1.25))
+  typeNormal(immo_env.EMAIL)
+  time.sleep(random.uniform(0.25, 1.25))
 
-    # input living area
-    input_area = getCoords('input#oss-area')
-    print('Enter Area ' + str(input_area))
-    humanMove(*input_area, clicks=1)
-    time.sleep(random.uniform(0.25, 1.25))
-    typeWrite(['backspace'] * 5)
-    time.sleep(random.uniform(0.25, 0.75))
-    typeNormal(str(random.randrange(40, 50)))
+  humanMove(*getCoords('#submit'), clicks=1)
+  time.sleep(random.uniform(2.25, 3.25))
 
-    # submit
-    submit = getCoords('button.oss-main-criterion.oss-button.button-primary.one-whole')
-    print('Submit ' + str(submit))
-    humanMove(*submit)
+  humanMove(*getCoords('#password'), clicks=1)
+  time.sleep(random.uniform(0.25, 1.25))
+  typeNormal(immo_env.PASSWORD)
+  time.sleep(random.uniform(1.25, 2.25))
 
-    time.sleep(random.uniform(4, 5.0))
+  humanMove(*getCoords('#loginOrRegistration'), clicks=1)
+  time.sleep(random.uniform(1.25, 2.25))
 
-    humanScroll(7, (5, 20), -1)
+  goto(SEARCH_URL)
+  # this is where the bot check is happening
+  # move the mouse a bit
+  for i in range(3):
+    humanMove(*(random.randrange(100, 800), random.randrange(100, 1000)), clicks=0)
+    time.sleep(random.uniform(0.5, 1.25))
 
-    # finally parse the listings
-    parse_listings = """var res = [];
-  document.querySelectorAll(".result-list__listing").forEach((el) => {
-  let title = el.querySelector(".result-list-entry__brand-title");
-  let details = el.querySelector(".result-list-entry__criteria");
+  humanScroll(7, (5, 20), -1)
 
-  if (title) {
-    let obj = {
-      title: title.textContent,
-      url: el.querySelector("a.result-list-entry__brand-title-container").getAttribute("href"),
-    };
-    if (details) {
-      obj.price = details.querySelector("dl.grid-item:nth-child(1)").textContent;
-      obj.area = details.querySelector("dl.grid-item:nth-child(2)").textContent;
-      obj.rooms = details.querySelector("dl.grid-item:nth-child(3)").textContent;
-    }
-    res.push(obj);
+  # finally parse the listings
+  parse_listings = """var res = [];
+document.querySelectorAll(".result-list__listing").forEach((el) => {
+let title = el.querySelector(".result-list-entry__brand-title");
+let details = el.querySelector(".result-list-entry__criteria");
+
+if (title) {
+  let obj = {
+    contacted: false,
+    title: title.textContent,
+    url: el.querySelector("a.result-list-entry__brand-title-container").getAttribute("href"),
+  };
+  if (details) {
+    obj.location = el.querySelector(".result-list-entry__map-link.link-text-secondary.font-normal.font-ellipsis").textContent;
+    obj.price = details.querySelector("dl.grid-item:nth-child(1)").textContent;
+    obj.area = details.querySelector("dl.grid-item:nth-child(2)").textContent;
+    obj.rooms = details.querySelector("dl.grid-item:nth-child(3)").textContent;
   }
-  });
-  JSON.stringify(res);"""
+  res.push(obj);
+}
+});
+JSON.stringify(res);"""
 
-    listings = evalJS(parse_listings)
-    # print(listings)
-    pprint.pprint(json.loads(listings))
+  listings = evalJS(parse_listings)
+  # print(listings)
+  pprint.pprint(json.loads(listings))
 
 
 if __name__ == '__main__':
