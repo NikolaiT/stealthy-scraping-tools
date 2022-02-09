@@ -53,8 +53,8 @@ def getCoords(selector, randomize_within_bcr=True):
     # is el.getBoundingClientRect() fucky?
     if randomize_within_bcr:
       # print(x, y, parsed['width'], parsed['height'])
-      x += random.randint(math.floor(parsed['width'] / 4), math.floor(parsed['width'] / 2))
-      y += random.randint(math.floor(parsed['height'] / 4), math.floor(parsed['height'] / 2))
+      x += random.randint(0, math.floor(parsed['width'] / 4))
+      y += random.randint(0, math.floor(parsed['height'] / 4))
   except Exception as e:
     print('getCoords() failed with Error: {}'.format(e))
     return None
