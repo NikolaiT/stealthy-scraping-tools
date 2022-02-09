@@ -74,8 +74,18 @@ def contact(listing):
   evalJS('document.getElementById("contactForm-Message").value = `{}`'.format(immo_env.MESSAGE))
   time.sleep(random.uniform(0.5, 1.1))
 
-  submit = getCoords('button[data-qa="sendButtonBasic"]')
-  humanMove(*submit, clicks=1)
+  no_pets = getCoords('[for="contactForm-hasPets.no"]')
+  if no_pets:
+    humanScroll(4, (5, 20), -1)
+    time.sleep(random.uniform(1.5, 1.5))
+    no_pets = getCoords('[for="contactForm-hasPets.no"]')
+    humanMove(*no_pets, clicks=1)
+    submit = getCoords('button.button-primary.padding-horizontal-m')
+    humanMove(*submit, clicks=1)
+  else:
+    submit = getCoords('button[data-qa="sendButtonBasic"]')
+    humanMove(*submit, clicks=1)
+
   time.sleep(random.uniform(3, 5))
   return True
 
@@ -138,7 +148,7 @@ def main():
     time.sleep(random.uniform(1.25, 2.25))
 
     humanMove(*getCoords('#loginOrRegistration'), clicks=1)
-    time.sleep(random.uniform(1.25, 2.25))
+    time.sleep(random.uniform(2.25, 3.55))
 
   goto(SEARCH_URL)
   # this is where the bot check is happening
@@ -147,7 +157,7 @@ def main():
     humanMove(*(random.randrange(100, 800), random.randrange(100, 1000)), clicks=0)
     time.sleep(random.uniform(0.5, 1.25))
 
-  humanScroll(7, (5, 20), -1)
+  humanScroll(8, (5, 20), -1)
 
   # finally parse the listings
   parse_listings = """var res = [];
@@ -195,7 +205,10 @@ JSON.stringify(res);"""
 
   print('contacting {} listings'.format(len(filtered_listings)))
   for key in filtered_listings:
-    contacted = contact(filtered_listings[key])
+    try:
+      contacted = contact(filtered_listings[key])
+    except Exception as e:
+      print('Failed to contact {}. Blocked? Error: {}'.format(key, str(e)))
     filtered_listings[key]['contacted'] = contacted
     time.sleep(random.uniform(0.5, 1.25))
 
@@ -205,6 +218,8 @@ JSON.stringify(res);"""
 
   with open('apartments.json', 'w') as f:
     json.dump(apartments, f)
+
+  os.system("pkill -f 'chrome'")
 
 
 if __name__ == '__main__':

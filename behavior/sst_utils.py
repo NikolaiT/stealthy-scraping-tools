@@ -49,8 +49,10 @@ def getCoords(selector, randomize_within_bcr=True):
     y = parsed['y']
 
     if randomize_within_bcr:
-      x += random.randrange(3, math.floor(parsed['width'] / 1.5))
-      y += random.randrange(3, math.floor(parsed['height'] / 2))
+      min_x = min(5, math.floor(parsed['width'] / 1.5))
+      min_y = min(2, math.floor(parsed['height'] / 2))
+      x += random.randrange(min_x, math.floor(parsed['width'] / 2))
+      y += random.randrange(min_y, math.floor(parsed['height'] / 2))
   except Exception as e:
     print(e)
     print(cmd, coords)
