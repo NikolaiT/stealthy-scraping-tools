@@ -40,6 +40,7 @@ def getCoords(selector, randomize_within_bcr=True):
   script_path = getScriptPath('coords.js')
   cmd = f"node {script_path} '{selector}'"
   coords = subprocess.check_output(cmd, shell=True)
+  coords = coords.decode()
 
   x, y = 0, 0
 
@@ -48,14 +49,14 @@ def getCoords(selector, randomize_within_bcr=True):
     x = parsed['x']
     y = parsed['y']
 
+    # this is fucking inaccurate. WHY???
+    # is el.getBoundingClientRect() fucky?
     if randomize_within_bcr:
-      min_x = min(5, math.floor(parsed['width'] / 1.5))
-      min_y = min(2, math.floor(parsed['height'] / 2))
-      x += random.randrange(min_x, math.floor(parsed['width'] / 2))
-      y += random.randrange(min_y, math.floor(parsed['height'] / 2))
+      # print(x, y, parsed['width'], parsed['height'])
+      x += random.randint(math.floor(parsed['width'] / 4), math.floor(parsed['width'] / 2))
+      y += random.randint(math.floor(parsed['height'] / 4), math.floor(parsed['height'] / 2))
   except Exception as e:
-    print(e)
-    print(cmd, coords)
+    print('getCoords() failed with Error: {}'.format(e))
     return None
 
   return x, y

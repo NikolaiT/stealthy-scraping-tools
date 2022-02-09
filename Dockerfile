@@ -41,8 +41,6 @@ RUN apt install -y --no-install-recommends --allow-unauthenticated x11vnc fluxbo
 
 RUN apt-get update -y && apt install -y iptables sudo
 
-# RUN npm install chrome-remote-interface
-
 COPY . .
 
 # https://dev.to/emmanuelnk/using-sudo-without-password-prompt-as-non-root-docker-user-52bg
