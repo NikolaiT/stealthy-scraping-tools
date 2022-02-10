@@ -70,7 +70,8 @@ def contact(listing):
   # input message
   input = getCoords("#contactForm-Message")
   humanMove(*input, clicks=3)
-  press('backspace')
+  typeNormal('Guten Tag, ')
+
   time.sleep(random.uniform(0.5, 1.1))
   evalJS('document.getElementById("contactForm-Message").value = `{}`'.format(immo_env.MESSAGE))
   time.sleep(random.uniform(0.5, 1.1))
@@ -106,7 +107,8 @@ def main():
     startFluxbox()
     startVNC()
 
-  startBrowser(args=['--incognito'])
+  # startBrowser(args=['--incognito'])
+  startBrowser(args=[])
 
   if os.getenv('DOCKER') == '1':
     # close the annoying chrome error message bar
