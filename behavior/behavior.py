@@ -1,6 +1,7 @@
 import random
 import time
 import os
+from turtle import width
 
 if os.getenv('DOCKER') == '1':
   from pyvirtualdisplay.display import Display
@@ -23,6 +24,11 @@ else:
 
 def tinySleep():
   time.sleep(random.uniform(0.075, 0.329))
+
+
+def getDim():
+  # current screen resolution width and height
+  return pyautogui.size()
 
 
 def someWhereRandomClose(x, y, max_dist=120):
@@ -52,7 +58,7 @@ def someWhereRandomClose(x, y, max_dist=120):
       return (x, y)
 
 
-def humanMove(x, y, clicks=1):
+def humanMove(x, y, clicks=1, steps=1):
   """
   Moves like a human to the coordinate (x, y) and 
   clicks on the coordinate.
@@ -62,16 +68,16 @@ def humanMove(x, y, clicks=1):
   Visits one intermediate coordiante close to the target before
   fine correcting and clicking on the target coordinates.
   """
-  if random.random() < 0.13:
-    far_x, far_y = someWhereRandomClose(x, y, 400)
+  width, height = getDim()
+
+  if steps > 1: # kek
+    far_x, far_y = someWhereRandomClose(x, y, min(width, 600))
     pyautogui.moveTo(far_x, far_y, random.uniform(0.35, .55), pyautogui.easeOutQuad)
     tinySleep()
-    closer_x, closer_y = someWhereRandomClose(x, y, 250)
+  
+  if steps > 0:
+    closer_x, closer_y = someWhereRandomClose(x, y, min(width, 400))
     pyautogui.moveTo(closer_x, closer_y, random.uniform(0.25, .40), pyautogui.easeOutQuad)
-
-    if random.random() < 0.5 and closer_x > 50 and closer_y > 150:
-      tinySleep()
-      pyautogui.click(clicks=1)
 
   # move to an intermediate target close to the destination
   # start fast, end slow

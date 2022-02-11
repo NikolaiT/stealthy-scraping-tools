@@ -3,9 +3,8 @@ import random
 import json
 import sys
 import pprint
-from webbrowser import get
 from behavior.sst_utils import *
-from behavior.behavior import humanMove, humanScroll, press, typeNormal, typeWrite, press
+from behavior.behavior import humanMove, humanScroll, typeNormal, getDim
 import immo_env
 
 """
@@ -43,20 +42,26 @@ def startVNC():
   os.system(vnc_cmd)
 
 
+def moveRandomly(steps=5):
+  width, height = getDim()
+  width = min(1920, width)
+  # this is where the bot check is happening
+  # move the mouse a bit
+  for i in range(steps):
+    humanMove(*(random.randrange(0, width-50), random.randrange(0, height-50)),
+     clicks=0, steps=2)
+    time.sleep(random.uniform(0.25, 1.0))
+
+
 def contact(listing):
   """
-  contact listing
+  contact the listing. This is where I get mostly blocked.
   """
   goto('https://www.immobilienscout24.de' + listing.get('url'))
-
-  # move a bit around like a hobo
-  for i in range(3):
-    humanMove(*(random.randrange(100, 800), random.randrange(100, 1000)), clicks=0)
-    time.sleep(random.uniform(0.5, 1))
+  moveRandomly(steps=4)
 
   already_contacted = getCoords('.is24-icon-heart-Favorite-glyph') is not None
-
-  already_contacted = False
+  # already_contacted = False
 
   if already_contacted:
     return True
@@ -66,14 +71,18 @@ def contact(listing):
   humanMove(*contact_button, clicks=1)
   time.sleep(random.uniform(4, 5.5))
 
-  evalJS('document.getElementById("contactForm-Message").value = `{}`'.format(''))
-  # input message
-  input = getCoords("#contactForm-Message")
-  humanMove(*input, clicks=3)
-  typeNormal('Guten Tag, ')
+  # check if message already entered
+  already_entered = json.loads(evalJS('document.getElementById("contactForm-Message").value.includes("und Langfristiges")')) is True
+  if not already_entered:
+    evalJS('document.getElementById("contactForm-Message").value = `{}`'.format(''))
+    # input message
+    input = getCoords("#contactForm-Message")
+    humanMove(*input, clicks=3)
+    typeNormal('Guten Tag, ')
+    time.sleep(random.uniform(0.5, 1.1))
+    evalJS('document.getElementById("contactForm-Message").value = `{}`'.format(immo_env.MESSAGE))
+    time.sleep(random.uniform(0.5, 1.1))
 
-  time.sleep(random.uniform(0.5, 1.1))
-  evalJS('document.getElementById("contactForm-Message").value = `{}`'.format(immo_env.MESSAGE))
   time.sleep(random.uniform(0.5, 1.1))
 
   no_pets = getCoords('[for="contactForm-hasPets.no"]')
@@ -88,13 +97,14 @@ def contact(listing):
     submit = getCoords('button[data-qa="sendButtonBasic"]')
     humanMove(*submit, clicks=1)
 
-  time.sleep(random.uniform(3, 5))
+  time.sleep(random.uniform(3.9, 5.9))
   return True
 
 
 def is_detected():
-  detected = evalJS("JSON.stringify(document.body.textContent.includes('Warum haben wir deine Anfrage blockiert?'));")
-  if json.loads(detected) == True:
+  detected = json.loads(evalJS("JSON.stringify(document.body.textContent.includes('Warum haben wir deine Anfrage blockiert?'));")) == True
+  other = json.loads(evalJS("JSON.stringify(document.body.textContent.includes('Sicherheitsabfrage'));")) == True
+  if detected or other:
     print('Got detected as a bot. Aborting.')
     sys.exit(0)
     return True 
@@ -121,11 +131,7 @@ def main():
 
   try:
     goto('https://www.immobilienscout24.de')
-    # this is where the bot check is happening
-    # move the mouse a bit
-    for i in range(3):
-      humanMove(*(random.randrange(100, 800), random.randrange(100, 1000)), clicks=0)
-      time.sleep(random.uniform(0.5, 1))
+    moveRandomly()
 
     # are there cookies to accept?
     # cookie consent is in an iframe with id '#gdpr-consent-notice'
@@ -168,11 +174,6 @@ def main():
       time.sleep(random.uniform(2.25, 3.55))
 
     goto(SEARCH_URL)
-    # this is where the bot check is happening
-    # move the mouse a bit
-    for i in range(3):
-      humanMove(*(random.randrange(100, 800), random.randrange(100, 1000)), clicks=0)
-      time.sleep(random.uniform(0.5, 1.25))
 
     humanScroll(8, (5, 20), -1)
 
