@@ -61,9 +61,8 @@ def contact(listing):
   moveRandomly(steps=4)
 
   already_contacted = getCoords('.is24-icon-heart-Favorite-glyph') is not None
-  # already_contacted = False
-
   if already_contacted:
+    print('Listing {} already contacted'.format(listing.get('url')))
     return True
 
   # contact
