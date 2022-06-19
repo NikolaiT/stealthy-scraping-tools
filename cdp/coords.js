@@ -198,7 +198,7 @@ async function getCoords(css_selector) {
 
     // get offset screen positioning
     const screenPos = await Runtime.evaluate({
-      expression: "JSON.stringify({offsetY: window.screen.height - window.innerHeight, offsetX: window.screen.width - window.innerWidth})"
+      expression: "JSON.stringify({offsetY: window.screenTop + (window.outerHeight - window.innerHeight), offsetX: window.screenLeft})"
     });
 
     let offset = JSON.parse(screenPos.result.value);

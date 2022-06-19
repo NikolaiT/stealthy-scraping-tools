@@ -1,6 +1,7 @@
-from sst_utils import *
-import pprint 
-import json 
+import json
+import pprint
+
+from behavior.sst_utils import *
 
 parse_listings = """var res = [];
 document.querySelectorAll(".result-list__listing").forEach((el) => {
@@ -22,5 +23,5 @@ if (title) {
 });
 JSON.stringify(res);"""
 
-listings = evalJS(parse_listings)
+listings = eval_js(parse_listings)
 pprint.pprint(json.loads(listings))

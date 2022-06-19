@@ -1,0 +1,30 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="false" level="WARNING" enabled_by_default="false">
+      <option name="ignoredPackages">
+        <value>
+          <list size="8">
+            <item index="0" class="java.lang.String" itemvalue="grpcio-status" />
+            <item index="1" class="java.lang.String" itemvalue="grpcio" />
+            <item index="2" class="java.lang.String" itemvalue="yv-organizations" />
+            <item index="3" class="java.lang.String" itemvalue="protobuf" />
+            <item index="4" class="java.lang.String" itemvalue="marshmallow" />
+            <item index="5" class="java.lang.String" itemvalue="google-cloud-pubsub" />
+            <item index="6" class="java.lang.String" itemvalue="grpc-google-iam-v1" />
+            <item index="7" class="java.lang.String" itemvalue="google-auth" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="dict.has_key" />
+          <option value="clients.gcloudpubsub.*" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="SqlNoDataSourceInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+  </profile>
+</component>
