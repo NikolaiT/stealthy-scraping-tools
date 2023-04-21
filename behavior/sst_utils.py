@@ -5,7 +5,7 @@ import random
 import math
 import json
 import subprocess
-from behavior.behavior import humanMove, humanTyping
+import subprocess
 from pathlib import Path
 
 
@@ -79,23 +79,23 @@ def startBrowser(args=[], startInTempDir=True):
     """
     ping google.com 1>out.log 2>err.log &
     """
-    tempDirStr = ''
+    tempDirStr = ' '
     if startInTempDir:
-        tempDirStr = f'--user-data-dir=/tmp '
+        tempDirStr = f' --user-data-dir=/tmp '
 
     arg_str = ' '.join(args)
     if sys.platform == 'darwin':
         chromePath = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
-        # On MacOS Montery, we need to start Google Chrome
+        # On MacOS Monterey, we need to start Google Chrome
         # in fullscreen mode to get the correct coordinates.
-        startCmd = f'{chromePath} --remote-debugging-port=9222 --start-maximized {tempDirStr}--disable-notifications --start-fullscreen {arg_str} 1>out.log 2>err.log &'
+        startCmd = f'{chromePath} --remote-debugging-port=9222 --start-maximized{tempDirStr}--disable-notifications --start-fullscreen {arg_str} 1>out.log 2>err.log &'
     else:
         startCmd = f'google-chrome --remote-debugging-port=9222 --start-maximized --disable-notifications {arg_str} 1>out.log 2>err.log &'
 
     if os.getenv('DOCKER') == '1':
         startCmd = 'google-chrome --remote-debugging-port=9222 --no-sandbox --disable-notifications --start-maximized --no-first-run --no-default-browser-check 1>out.log 2>err.log &'
 
-    os.system(startCmd)
+    subprocess.Popen([startCmd], shell=True)
     time.sleep(random.uniform(3, 4))
 
 

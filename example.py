@@ -15,9 +15,11 @@ the bash command on Linux `xdotool getmouselocation`
 
 
 def main():
+    print('Trying to start browser')
     startBrowser(['bot.incolumitas.com\n'])
 
     # click link to get to the challenge
+    print('Trying to click challenge link')
     coords = getCoords('li:nth-of-type(3) a')
     print('Clicking on coordinates ' + str(coords))
     humanMove(*coords)
