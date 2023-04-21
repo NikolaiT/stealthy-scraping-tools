@@ -1,5 +1,6 @@
 import time
 import os
+import sys
 import random
 import math
 import json
@@ -33,9 +34,12 @@ def evalJS(command):
   ps = subprocess.check_output(cmd, shell=True)
   return ps
 
-def getCoords(selector, randomize_within_bcr=True):
+def getCoords(selector, randomize_within_bcr=True, highlight_bb=True):
   """
-  Example: `node coords.js "li:nth-of-type(3) a"`
+  - selector: The CSS selector to get the coords for
+  - randomize_within_bcr: select a random coordinate withhin the bounding box
+  hight
+  - highlight_bb: visually highlight the bounding box for debugging purposes
   """
   script_path = getScriptPath('coords.js')
   cmd = f"node {script_path} '{selector}'"
@@ -46,15 +50,18 @@ def getCoords(selector, randomize_within_bcr=True):
 
   try:
     parsed = json.loads(coords)
-    x = parsed['x']
-    y = parsed['y']
+    x, y, width, height = parsed['x'], parsed['y'], parsed['width'], parsed['height']
 
-    # this is fucking inaccurate. WHY???
-    # is el.getBoundingClientRect() fucky?
     if randomize_within_bcr:
       # print(x, y, parsed['width'], parsed['height'])
       x += random.randint(0, math.floor(parsed['width'] / 4))
       y += random.randint(0, math.floor(parsed['height'] / 4))
+
+    if highlight_bb:
+        # Just add a red thick border around the CSS selector
+        cmd = """var el = document.querySelector('""" + selector + """'); if (el) { el.style.border = "2px solid #ff0000"; }"""
+        evalJS(cmd)
+
   except Exception as e:
     print('getCoords() failed with Error: {}'.format(e))
     return None
@@ -63,12 +70,27 @@ def getCoords(selector, randomize_within_bcr=True):
 
 
 def startBrowser(args=[]):
+  """
+  ping google.com 1>out.log 2>err.log &
+  """
   arg_str = ' '.join(args)
-  startCmd = f'google-chrome --remote-debugging-port=9222 --start-maximized --disable-notifications {arg_str} &'
-  
+  if sys.platform == 'darwin':
+      # On MacOS Montery, we need to start Google Chrome
+      # in fullscreen mode to get the correct coordinates.
+      startCmd = f'/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --start-maximized --disable-notifications --start-fullscreen {arg_str} 1>out.log 2>err.log &'
+  else:
+      startCmd = f'google-chrome --remote-debugging-port=9222 --start-maximized --disable-notifications {arg_str} 1>out.log 2>err.log &'
+
   if os.getenv('DOCKER') == '1':
-    startCmd = 'google-chrome --remote-debugging-port=9222 --no-sandbox --disable-notifications --start-maximized --no-first-run --no-default-browser-check &'
-    # startCmd = 'google-chrome --remote-debugging-port=9222 --no-sandbox --disable-notifications --start-maximized --no-first-run --no-default-browser-check --incognito &'
-  
+    startCmd = 'google-chrome --remote-debugging-port=9222 --no-sandbox --disable-notifications --start-maximized --no-first-run --no-default-browser-check 1>out.log 2>err.log &'
+
   os.system(startCmd)
   time.sleep(random.uniform(4, 5))
+
+
+def closeBrowser():
+    print('closing browser')
+    if sys.platform == 'darwin':
+        os.system("killall -9 'Google Chrome'")
+    else:
+        os.system("killall -9 'google-chrome'")

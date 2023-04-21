@@ -1,11 +1,10 @@
 import random
 import time
 import os
-from turtle import width
 
 if os.getenv('DOCKER') == '1':
   from pyvirtualdisplay.display import Display
-  import os 
+  import os
   import time
 
   disp = Display(visible=True, size=(1920, 1080), backend="xvfb", use_xauth=True)
@@ -17,9 +16,12 @@ if os.getenv('DOCKER') == '1':
   import Xlib.display
   import pyautogui
   pyautogui._pyautogui_x11._display = Xlib.display.Display(os.environ['DISPLAY'])
+  pyautogui.FAILSAFE = True
 else:
   import pyautogui
-  pyautogui.FAILSAFE = False
+  # When fail-safe mode is True, moving the mouse to the upper-left
+  # will raise a pyautogui.FailSafeException that can abort your program:
+  pyautogui.FAILSAFE = True
 
 
 def tinySleep():
@@ -60,7 +62,7 @@ def someWhereRandomClose(x, y, max_dist=120):
 
 def humanMove(x, y, clicks=1, steps=1):
   """
-  Moves like a human to the coordinate (x, y) and 
+  Moves like a human to the coordinate (x, y) and
   clicks on the coordinate.
 
   Randomizes move time and the move type.
@@ -74,7 +76,7 @@ def humanMove(x, y, clicks=1, steps=1):
     far_x, far_y = someWhereRandomClose(x, y, min(width, 600))
     pyautogui.moveTo(far_x, far_y, random.uniform(0.35, .55), pyautogui.easeOutQuad)
     tinySleep()
-  
+
   if steps > 0:
     closer_x, closer_y = someWhereRandomClose(x, y, min(width, 400))
     pyautogui.moveTo(closer_x, closer_y, random.uniform(0.25, .40), pyautogui.easeOutQuad)
@@ -103,8 +105,8 @@ def tinySleep():
 
 def doubleHit(key1, key2):
   """
-  Sometimes press two keys down at the same time and randomize the 
-  order of the corresponding key up events to resemble 
+  Sometimes press two keys down at the same time and randomize the
+  order of the corresponding key up events to resemble
   human typign closer.
   """
   pyautogui.keyDown(key1)

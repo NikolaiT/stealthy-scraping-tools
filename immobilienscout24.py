@@ -42,7 +42,7 @@ def startVNC():
   os.system(vnc_cmd)
 
 
-def moveRandomly(steps=5):
+def moveRandomly(steps=2):
   width, height = getDim()
   width = min(1920, width)
   # this is where the bot check is happening
@@ -75,10 +75,10 @@ def contact(listing):
   if not already_entered:
     evalJS('document.getElementById("contactForm-Message").value = `{}`'.format(''))
     # input message
-    input = getCoords("#contactForm-Message")
-    humanMove(*input, clicks=3)
-    typeNormal('Guten Tag, ')
-    time.sleep(random.uniform(0.5, 1.1))
+    input_el = getCoords("#contactForm-Message")
+    humanMove(*input_el, clicks=3)
+    # typeNormal('Guten Tag, ')
+    # time.sleep(random.uniform(0.5, 1.1))
     evalJS('document.getElementById("contactForm-Message").value = `{}`'.format(immo_env.MESSAGE))
     time.sleep(random.uniform(0.5, 1.1))
 
@@ -106,8 +106,8 @@ def is_detected():
   if detected or other:
     print('Got detected as a bot. Aborting.')
     sys.exit(0)
-    return True 
-  else: 
+    return True
+  else:
     return False
 
 
@@ -150,12 +150,14 @@ def main():
     if login_button:
       humanMove(*login_button, clicks=1)
 
-      time.sleep(random.uniform(2.5, 4))
+      time.sleep(random.uniform(2.5, 3))
 
       user_input = getCoords('#username')
       if not user_input:
         raise Exception('Cannot find username input field by id #username')
-        
+
+      time.sleep(random.uniform(1.5, 2))
+
       humanMove(*user_input, clicks=1)
       time.sleep(random.uniform(0.25, 1.25))
       typeNormal(immo_env.EMAIL)
@@ -203,13 +205,17 @@ def main():
     listings = json.loads(output)
     # pprint.pprint(listings)
     filtered_listings = {}
+
     for el in listings:
       if el.get('url'):
         key = el.get('url')
         location = el.get('location', '').lower().strip()
-        for pref in immo_env.PREFERRED_LOCATIONS:
-          if pref.lower().strip() in location:
-            filtered_listings[key] = el
+        if immo_env.FILTER_LISTINGS:
+          for pref in immo_env.PREFERRED_LOCATIONS:
+            if pref.lower().strip() in location:
+              filtered_listings[key] = el
+        else:
+          filtered_listings[key] = el
 
     # remove listings we already contacted
     for key in apartments:
@@ -237,8 +243,9 @@ def main():
 
     with open('apartments.json', 'w') as f:
       json.dump(apartments, f)
+      print('Updated database')
 
-    os.system("pkill -f 'chrome'")
+    closeBrowser()
   except Exception as e:
     print('Error: {}'.format(e))
     is_detected()
