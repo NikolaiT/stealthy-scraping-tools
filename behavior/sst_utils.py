@@ -75,20 +75,17 @@ def getCoords(selector, randomize_within_bcr=True, highlight_bb=True):
     return x, y
 
 
-def startBrowser(args=[], startInTempDir=True):
-    """
-    ping google.com 1>out.log 2>err.log &
-    """
+def startBrowser(args=[], startInTempDir=True, chromeProfile='--profile-directory=Default'):
     tempDirStr = ' '
     if startInTempDir:
-        tempDirStr = f' --user-data-dir=/tmp '
+        tempDirStr = f'--user-data-dir=/tmp'
 
     arg_str = ' '.join(args)
     if sys.platform == 'darwin':
         chromePath = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
         # On MacOS Monterey, we need to start Google Chrome
         # in fullscreen mode to get the correct coordinates.
-        startCmd = f'{chromePath} --remote-debugging-port=9222 --start-maximized{tempDirStr}--disable-notifications --start-fullscreen {arg_str} 1>out.log 2>err.log &'
+        startCmd = f'{chromePath} --remote-debugging-port=9222 --start-maximized {tempDirStr} {chromeProfile} --disable-notifications --start-fullscreen {arg_str} 1>out.log 2>err.log &'
     else:
         startCmd = f'google-chrome --remote-debugging-port=9222 --start-maximized --disable-notifications {arg_str} 1>out.log 2>err.log &'
 
