@@ -9,7 +9,7 @@ We only use the [CDP](https://developer.chrome.com/docs/devtools/) to obtain the
 
 Mouse movements and typing is handled by `pyautogui` or other means, but not with JavaScript or with the CDP! Reason: Browser based mouse and keyboard emulation is very easy detectable!
 
-## Theory 
+## Theory
 
 1. Analyzing key strokes: [TypeNet: Deep Learning Keystroke Biometrics](https://arxiv.org/abs/2101.05570)
 2. Research how to mimic human mouse movements: [BeCAPTCHA-Mouse: Synthetic Mouse Trajectories and Improved Bot Detection](https://arxiv.org/abs/2005.00890)
@@ -59,11 +59,11 @@ python example.py
 
 ## Docker
 
-The Dockerfile is based on `Ubuntu 20.04`. 
+The Dockerfile is based on `Ubuntu 20.04`.
 
 The Dockerfile uses `xvfb` from the python module `PyVirtualDisplay`.
 
-I use `pyautogui` for mouse and keyboard automation. 
+I use `pyautogui` for mouse and keyboard automation.
 
 I use `fluxbox` as a tiny window manager and `x11vnc` (Virtual Network Computing server program) as a means to inspect the docker image and see what is going on.
 
@@ -73,7 +73,7 @@ Build the Dockerfile:
 docker build -t sst:0.0.1 .
 ```
 
-Hint: Avoid chrome in docker crashing: https://github.com/stephen-fox/chrome-docker/issues/8
+Hint: Avoid chrome in docker crashing: <https://github.com/stephen-fox/chrome-docker/issues/8>
 
 ```
 1. Option 1: Run chrome with --disable-dev-shm-usage
@@ -91,5 +91,3 @@ docker run --cap-add=NET_ADMIN --network="host" --shm-size=2g sst:0.0.1
 + Look at Kernel/OS level mouse/keyboard control commands (Ditch `pyautogui`)
 + Use the math from [ghost-cursor](https://github.com/Xetera/ghost-cursor)
 + Create a set of typign recordings and use it to derive rules for bot writing
-
-
