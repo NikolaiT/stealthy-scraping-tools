@@ -75,8 +75,8 @@ def getCoords(selector, randomize_within_bcr=True, highlight_bb=True):
     return x, y
 
 
-def startBrowser(args=[], startInTempDir=True, chromeProfile='--profile-directory=Default'):
-    tempDirStr = ' '
+def startBrowser(args=[], startInTempDir=False, chromeProfile='--profile-directory="Default"'):
+    tempDirStr = ''
     if startInTempDir:
         tempDirStr = f'--user-data-dir=/tmp'
 
@@ -92,6 +92,7 @@ def startBrowser(args=[], startInTempDir=True, chromeProfile='--profile-director
     if os.getenv('DOCKER') == '1':
         startCmd = 'google-chrome --remote-debugging-port=9222 --no-sandbox --disable-notifications --start-maximized --no-first-run --no-default-browser-check 1>out.log 2>err.log &'
 
+    print(startCmd)
     subprocess.Popen([startCmd], shell=True)
     time.sleep(random.uniform(3, 4))
 
